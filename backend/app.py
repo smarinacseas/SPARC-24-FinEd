@@ -1,25 +1,54 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from config import Config
-from user import db, User
-
-#from dotenv import load_dotenv
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from dotenv import load_dotenv
 import os
 
-# Load env vars
-#load_dotenv()
+load_dotenv()
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
-app = Flask(__name__, template_folder='../frontend/templates')
-app.config.from_object(Config)
-db.init_app(app)
+users = {}  # Temporary in-memory user store
 
-# Access env vars
-# app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    first_name = data.get('firstName')
+    last_name = data.get('lastName')
+    email = data.get('email')
+    password = data.get('password')
 
-#To test that back end is working
-@app.route('/')
-def hello():
-    return "Backend running!"
+    if not first_name or not last_name or not email or not password:
+        return jsonify({'message': 'All fields are required'}), 400
+
+    if email in users:
+        return jsonify({'message': 'User already exists'}), 400
+
+    users[email] = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'password': password
+    }
+
+    print("Current users:", users);
+
+    return jsonify({'message': 'User registered successfully'}), 201
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'All fields are required'}), 400
+
+
+    user = users.get(email)
+    if not user or user['password'] != password:
+        return jsonify({'message': 'Invalid credentials'}), 401
+
+    return jsonify({'message': 'Login successful'}), 200
+
 
 #login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -76,4 +105,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug = True)
-
