@@ -30,10 +30,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Enable CORS for all routes
-CORS(app)
+#CORS(app)
+CORS(app, supports_credentials=True)
 
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
+@csrf.exempt
 def register():
     data = request.json
     first_name = data.get('firstName')
@@ -60,6 +62,7 @@ def register():
 
 # Endpoint for logging in an existing user
 @app.route('/login', methods=['POST'])
+@csrf.exempt
 def login():
     data = request.json
     email = data.get('email')
