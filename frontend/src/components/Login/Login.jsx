@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
-import api from '../../api'; // Adjust the path according to your project structure
+import api from '../../api';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,9 +18,9 @@ const Login = () => {
       console.log('Server response:', response);
       setMessage(response.data.message);
 
-      if (response.data.message === 'Login successful') {
+      if (response.status === 200) {
         // Assume a function to save the authenticated state
-        window.localStorage.setItem('isAuthenticated', 'true');
+        login();
         navigate('/home'); // Redirect to home after successful login
       }
     } catch (error) {
