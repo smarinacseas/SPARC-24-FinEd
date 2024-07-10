@@ -27,7 +27,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # db.init_app(app) --> change to initialize SQLAlchemy (suitable for smaller scale project)
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
+db.init_app(app)
 
 # Enable CORS for all routes
 #CORS(app)
