@@ -1,21 +1,38 @@
 from flask import Flask, request, jsonify, flash
 from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from user import db, User
-
+from flask_bcrypt import Bcrypt
 import os
 
+# Load env vars from .env file
 load_dotenv()
+
+# Initialize Flask app with Bcrypt for password hashing
 app = Flask(__name__)
 
-# Set up database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Welcome1@financial-app-db.c92cqe6w64ar.us-east-2.rds.amazonaws.com:5432/initial_fin_db'
+# Set secret key (session management + CSRF protection)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+# Enable CSRF protection to ensure requests are from authenticated users
+csrf = CSRFProtect(app)
+
+# Initialize Bcrypt for password hashing
+bcrypt = Bcrypt(app)
+
+# Set up database from env vars
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
 
-CORS(app)  # Enable CORS for all routes
+# db.init_app(app) --> change to initialize SQLAlchemy (suitable for smaller scale project)
+db = SQLAlchemy(app)
 
+# Enable CORS for all routes
+CORS(app)
+
+# Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -32,24 +49,31 @@ def register():
     if User.query.filter_by(email=email).first():
         return jsonify({'message': 'User Email already exists'}), 400
 
-    new_user = User(first_name=first_name, last_name=last_name, email=email, password=password, module=-1)
+    # Hash password
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
+    # Create a new user and add to database
+    new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password, module=-1)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User registered successfully'}), 201
 
+# Endpoint for logging in an existing user
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
     email = data.get('email')
     password = data.get('password')
 
+    # Check if email and password are both provided
     if not email or not password:
         return jsonify({'message': 'All fields are required'}), 400
 
+    # Retrieve existing user from database
     cur_user = User.query.filter_by(email=email).first()
     
-    if not cur_user or cur_user.password != password:
+    # Check login credential validity
+    if not cur_user or not bcrypt.check_password_hash(cur_user.password, password):
         return jsonify({'message': 'The username or password is not correct. Please try again'}), 401
 
     return jsonify({'message': 'Login successful'}), 200
