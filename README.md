@@ -13,6 +13,7 @@ Environment variables (avoid storing usernames/passwords in code)
 Secrets manager in AWS (more complex, stretch goal)
 
 Main goal: Get project working locally at a very basic level (front end + back end + database)
+
 - Front end: says "front end", has 1 button that sends request to back end
 - Back end: send a basic response for front end to display
   --> Can start locally, ideally host in the cloud
@@ -20,6 +21,7 @@ Main goal: Get project working locally at a very basic level (front end + back e
   --> manually create a login table, send post request with user/pass from back end, use DBeaver to check
 
 Milestones:
+
 1. Someone create database in AWS and connect it to/visualize via DBeaver
    --> Can interact directly (Boto3) if we want
 2. Send a post request to the database, ensure all ends talk
@@ -32,3 +34,5 @@ Simple monthly expense prediction model
 Chat bot via OpenAI API, be careful with API key (env vars)
 
 MVP:
+
+Demonstrating git commands
