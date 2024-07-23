@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import "./login.css";
-import { Link } from "react-router-dom";
-import api from '../../api'; // Adjust the path according to your project structure
+import { Link, useNavigate } from "react-router-dom";
+import api from '../../api';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,6 +17,12 @@ const Login = () => {
       const response = await api.post('/login', { email, password });
       console.log('Server response:', response);
       setMessage(response.data.message);
+
+      if (response.status === 200) {
+        // Assume a function to save the authenticated state
+        login();
+        navigate('/home'); // Redirect to home after successful login
+      }
     } catch (error) {
       console.error('Error during login:', error);
       if (error.response && error.response.data) {
@@ -59,7 +68,7 @@ const Login = () => {
       </form>
       <div className="login">
         <p>Don't have an account?</p>
-        <Link to="/" type="button" className="btn btn-secondary">
+        <Link to="/register" type="button" className="btn btn-secondary">
           Create an Account
         </Link>
       </div>

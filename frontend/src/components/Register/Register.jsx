@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./register.css";
-import { Link } from "react-router-dom";
-import api from '../../api'; // Adjust the path according to your project structure
+import { Link, useNavigate } from "react-router-dom";
+import api from '../../api'; // Ensure the path is correct
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -9,22 +9,23 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const payload = { firstName, lastName, email, password };
+    console.log("Register payload:", payload);  // Debug print
     try {
-      const response = await api.post('/register', { firstName, lastName, email, password });
-      console.log('Server response:', response);
+      const response = await api.post('/register', payload);
       setMessage(response.data.message);
-    } catch (error) {
-      console.error('Error during registration:', error);
-      if (error.response && error.response.data) {
-        setMessage(error.response.data.message);
-      } else if (error.message) {
-        setMessage(error.message);
-      } else {
-        setMessage('An unexpected error occurred');
+      if (response.status === 201) {
+        setTimeout(() => {
+          navigate('/login');
+        }, 500); // Redirect to login after 0.5s
       }
+    } catch (error) {
+      console.error("Error during registration:", error);  // Log the entire error
+      setMessage(error.response ? error.response.data.message : 'An unexpected error occurred');
     }
   };
 
@@ -76,15 +77,15 @@ const Register = () => {
           <button type="submit" className="btn btn-success">
             Sign Up
           </button>
-          {message && <p className="mt-3 text-center">{message}</p>}
-          <div className="login">
-            <p>Already have an account?</p>
-            <Link to="/login" type="button" className="btn btn-primary">
-              Login
-            </Link>
-          </div>
         </div>
       </form>
+      <div className="login">
+        <p>Already have an account?</p>
+        <Link to="/login" type="button" className="btn btn-primary">
+          Login
+        </Link>
+      </div>
+      {message && <p>{message}</p>}
     </div>
   );
 };
