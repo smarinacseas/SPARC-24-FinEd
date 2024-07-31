@@ -83,5 +83,42 @@ def login():
 
     return jsonify({'message': 'Login successful'}), 200
 
+# Endpoint for quiz page
+@app.route('/quiz', methods=['GET'])
+def quiz():
+    questions = [
+            {
+                "question": "What is Quiz Question 1:",
+                "options": ["One", "Two", "Three", "Four"],
+                "answer": "One"
+            },
+            {
+                "question": "What is Quiz Question 2:",
+                "options": ["One", "Two", "Three", "Four"],
+                "answer": "One"
+            },
+            {
+                "question": "What is Quiz Question 3:",
+                "options": ["One", "Two", "Three", "Four"],
+                "answer": "One"
+            },
+            {
+                "question": "What is Quiz Question 4:",
+                "options": ["One", "Two", "Three", "Four"],
+                "answer": "One"
+            },
+            {
+                "question": "What is Quiz Question 5:",
+                "options": ["One", "Two", "Three", "Four", "Five"],
+                "answer": "One"
+            },
+            {
+                "question": "What is Quiz Question 6:",
+                "options": ["One", "Two", "Three", "Four"],
+                "answer": "One"
+            }
+        ]
+    return jsonify(questions)
+
 if __name__ == '__main__':
     app.run(debug=True)
