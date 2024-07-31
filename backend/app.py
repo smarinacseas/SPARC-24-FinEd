@@ -74,6 +74,7 @@ def login():
     if not email or not password:
         return jsonify({'message': 'All fields are required'}), 400
 
+
     # Retrieve existing user from database
     cur_user = User.query.filter_by(email=email).first()
     
@@ -119,6 +120,7 @@ def quiz():
             }
         ]
     return jsonify(questions)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
