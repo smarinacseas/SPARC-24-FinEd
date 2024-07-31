@@ -1,0 +1,58 @@
+.header {
+    width: 100%;
+    background-color: #4E6766;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+  
+  .brand {
+    color: #f4e9cd; /* Color for the "Easy Money" text */
+    font-weight: 600; /* Use 600 for semi-bold or adjust as needed */
+    font-size: 20px; /* Adjust size as needed */
+  }
+  
+  .tabs-container {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Center tabs horizontally */
+    align-items: flex-end; /* Align tabs with the bottom of the header */
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .tab {
+    padding: 10px 15px; /* Ensure enough padding for a good clickable area */
+    background-color: #f4e9cd;
+    border-radius: 20px 20px 0 0; /* Rounded top corners, flat bottom corners */
+    text-decoration: none;
+    color: #031926;
+    font-weight: medium;
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+    bottom: -10px; /* Move the tabs down to align with the bottom of the header */
+  }
+  
+  .tab:hover {
+    background-color: #e4d9bb; /* Slightly different color for hover */
+  }
+  
+  .settings button {
+    background-color: #f4e9cd;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 30px 10px 30px;
+    cursor: pointer;
+  }
+  
+  .settings button:hover {
+    background-color: #c0c0c0;
+  }
