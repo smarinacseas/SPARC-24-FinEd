@@ -1,5 +1,6 @@
 import React from 'react';
 import './Module4.css';
+import InterestCalculator from '../../Interest Calculator/InterestCalculator';
 
 function Module4() {
   return (
@@ -26,6 +27,7 @@ function Module4() {
             </div>
           </div>
         </div>
+        <InterestCalculator />
       </div>
     </div>
   );
