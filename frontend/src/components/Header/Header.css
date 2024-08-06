@@ -77,7 +77,7 @@
 .menu-line {
   width: 25px;
   height: 3px;
-  background-color: #031926; /* Matches the dark green button color */
+  background-color: #f4e9cd;
   transition: all 0.3s ease;
 }
 
