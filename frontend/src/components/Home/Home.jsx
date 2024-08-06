@@ -13,8 +13,8 @@ function Home() {
 
   return (
     <div className="home-container">
-      <h1 className="home-title">Easy Money Home Page</h1>
-      <button className="home-button" onClick={logout}>Logout</button>
+      <h1 className="home-title">Roadmap</h1>
+      {/* <button className="home-button" onClick={logout}>Logout</button> */}
       <button className="home-button" onClick={() => goToModule('/quiz')}>Go to Quiz</button>
       <button className="home-button" onClick={() => goToModule('/module1')}>Go to Module 1</button>
       <button className="home-button" onClick={() => goToModule('/module2')}>Go to Module 2</button>
