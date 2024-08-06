@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+// import { useAuth } from '../../context/AuthContext';
 import './home.css'; // Import the CSS file
 
 function Home() {
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
   const navigate = useNavigate();
 
   const goToModule = (modulePath) => {
