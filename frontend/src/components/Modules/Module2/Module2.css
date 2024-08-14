@@ -1,0 +1,202 @@
+<<<<<<< HEAD
+=======
+/* .module-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-content {
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-bottom: 0px;
+  font-size: 32px;
+  font-weight: medium;
+  color: #031926;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #031926;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "left right"
+    "left right-bottom";
+}
+
+.section {
+  background-color: #d9e2e3;
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.motivating-example {
+  grid-area: left;
+}
+
+.info {
+  grid-area: right;
+}
+
+.actions {
+  grid-area: right-bottom;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.section-content ul {
+  list-style: disc;
+  margin-left: 50px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+} */
+
+
+/* Next */
+.module-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-content {
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-bottom: 0px;
+  font-size: 32px;
+  font-weight: medium;
+  color: #031926;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #031926;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "left right"
+    "left right-bottom";
+}
+
+.section {
+  background-color: #d9e2e3;
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.motivating-example {
+  grid-area: left;
+}
+
+.info {
+  grid-area: right;
+}
+
+.actions {
+  grid-area: right-bottom;
+}
+
+.repayment {
+  grid-area: right-bottom;
+  background-color: #f0f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.debt-outcome {
+  grid-area: right;
+  background-color: #f0f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.result h4 {
+  font-size: 20px;
+}
+
+.result p {
+  font-size: 18px;
+  font-weight: bold;
+}
+>>>>>>> edb5915ce0677be1c0ddca1bd8c2733ccc6b337e
