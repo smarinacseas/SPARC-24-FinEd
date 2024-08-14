@@ -27,12 +27,8 @@ h2 {
 
 .content-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "left right"
-    "left right-bottom";
 }
 
 .section {
@@ -42,16 +38,26 @@ h2 {
   box-sizing: border-box;
 }
 
-.motivating-example {
-  grid-area: left;
+.apr-calculator {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
 }
 
-.info {
-  grid-area: right;
+.checking-account {
+  grid-column: 2 / 3;
+  
+}
+
+.how-to-choose {
+  grid-column: 2 / 3;
+}
+
+.savings-account {
+  grid-column: 3 / 4;
 }
 
 .actions {
-  grid-area: right-bottom;
+  grid-column: 1 / 4;
 }
 
 .section-title {
@@ -63,4 +69,44 @@ h2 {
 .section-content ul {
   list-style: disc;
   margin-left: 20px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.input-group label {
+  margin-right: 10px;
+  flex: 1;
+}
+
+.input-group input {
+  flex: 2;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.actions input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.actions label {
+  margin-right: 20px;
 }
