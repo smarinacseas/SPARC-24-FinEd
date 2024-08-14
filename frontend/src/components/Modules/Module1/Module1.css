@@ -1,66 +1,82 @@
-.module-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.pie-chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* Adjust based on your layout */
+  margin: 0 auto;
 }
 
-.main-content {
-  width: 90%;
-  max-width: 1200px;
-  padding: 20px;
-  box-sizing: border-box;
+.interactive-image {
+  width: 100%;
+  height: auto;
 }
 
-h1 {
-  margin-bottom: 0px;
-  font-size: 32px;
-  font-weight: medium;
-  color: #031926;
+.pie-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-h2 {
-  margin-bottom: 20px;
-  font-size: 32px;
-  font-weight: bold;
-  color: #031926;
+.pie-piece {
+  position: absolute;
+  top: 50%;  /* Center vertically */
+  left: 50%;  /* Center horizontally */
+  width: 70%; /* Half the width of the chart */
+  height: 70%; /* Half the height of the chart */
+  background-color: transparent; /* Initially transparent */
+  transform-origin: center; /* Pivot around the center of the image */
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
+  transform: translate(-50%, -50%) rotate(var(--rotate-start));
 }
 
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "left right"
-    "left right-bottom";
+.pie-piece:nth-child(1) {
+  /* --rotate-start: 288deg;
+  --rotate-end: 360deg; */
+  clip-path: polygon(50% 50%, 100% 50%, calc(cos(120deg)) calc(sin(120deg)));
+  /* background-color: rgba(0, 149, 255, 0.3); /* Initial color */} */
+
+.pie-piece:nth-child(2) {
+  --rotate-start: 72deg;
+  --rotate-end: 144deg;
+  clip-path: polygon(50% 50%, calc(50% + 50% * cos(72deg)) calc(50% + 50% * sin(72deg)), calc(50% + 50% * cos(144deg)) calc(50% + 50% * sin(144deg)));
+  /* background-color: rgba(255, 0, 162, 0.3); /* Initial color */} */
+
+.pie-piece:nth-child(3) {
+  --rotate-start: 144deg;
+  --rotate-end: 216deg;
+  /* background-color: rgba(0, 255, 153, 0.3); Hover effect */
 }
 
-.section {
-  background-color: #9dbebb;
-  padding: 20px;
-  border-radius: 8px;
-  box-sizing: border-box;
+.pie-piece:nth-child(4) {
+  --rotate-start: 216deg;
+  --rotate-end: 288deg;
+  /* background-color: rgba(255, 0, 0, 0.3); Hover effect */
+
 }
 
-.motivating-example {
-  grid-area: left;
+.pie-piece:nth-child(5) {
+  --rotate-start: 0deg;
+  --rotate-end: 72deg; /* Adjust based on your chart's divisions */
+  /* background-color: rgba(234, 255, 0, 0.3); Hover effect */
+
 }
 
-.info {
-  grid-area: right;
+.pie-piece:hover {
+  /* background-color: rgba(43, 0, 255, 0.3); Hover effect */
 }
 
-.actions {
-  grid-area: right-bottom;
+.hover-info {
+  margin-top: 20px;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.section-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-}
-
-.section-content ul {
-  list-style: disc;
-  margin-left: 20px;
+.hover-info {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333;
 }

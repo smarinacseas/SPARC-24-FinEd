@@ -84,14 +84,5 @@ def login():
 
     return jsonify({'message': 'Login successful'}), 200
 
-@app.route('/savings-accounts', methods=['GET'])
-def savings_accounts():
-    url = 'https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/'
-    try:
-        data = get_bankrate_data(url)
-        return jsonify(data), 200
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)

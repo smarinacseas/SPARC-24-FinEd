@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../AllModules.css'
 import './Module3.css';
 
 function Module3() {
@@ -10,10 +11,13 @@ function Module3() {
   const [savingsAPR, setSavingsAPR] = useState(null);
   const [selectedActions, setSelectedActions] = useState([]);
 
-  const calculateAPR = () => {
+  const calculateCheckingAPR = () => {
     const checkingAPRValue = (parseFloat(checkingAPY) / 100) * parseFloat(checkingAmount);
-    const savingsAPRValue = (parseFloat(savingsAPY) / 100) * parseFloat(savingsAmount);
     setCheckingAPR(isNaN(checkingAPRValue) ? null : checkingAPRValue.toFixed(0));
+  };
+
+  const calculateSavingsAPR = () => {
+    const savingsAPRValue = (parseFloat(savingsAPY) / 100) * parseFloat(savingsAmount);
     setSavingsAPR(isNaN(savingsAPRValue) ? null : savingsAPRValue.toFixed(0));
   };
 
@@ -29,9 +33,10 @@ function Module3() {
     <div className="module-container">
       <div className="main-content">
         <h1>Module 3</h1>
-        <h2>Bank Accounts</h2>
+        <h2>Bank Accounts</h2>        
         <div className="content-grid">
-          <div className="section apr-calculator">
+
+        <div className="section motivating-example">
             <div className="section-title">APR Calculator</div>
             <div className="section-content">
               <div className="input-group">
@@ -46,21 +51,28 @@ function Module3() {
               </div>
               <div className="input-group">
                 <label>
-                  Savings Account Amount:   
-                  <input
-                    type="number"
-                    value={savingsAmount}
-                    onChange={(e) => setSavingsAmount(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div className="input-group">
-                <label>
                   Checking Account APY (%):   
                   <input
                     type="number"
                     value={checkingAPY}
                     onChange={(e) => setCheckingAPY(e.target.value)}
+                  />
+                </label>
+              </div>
+              <button onClick={calculateCheckingAPR}>Calculate Checking APR</button>
+              {checkingAPR !== null && (
+                <div>
+                  <h3>Checking Account APR: ${checkingAPR}</h3>
+                </div>
+              )}
+
+              <div className="input-group">
+                <label>
+                  Savings Account Amount:   
+                  <input
+                    type="number"
+                    value={savingsAmount}
+                    onChange={(e) => setSavingsAmount(e.target.value)}
                   />
                 </label>
               </div>
@@ -74,12 +86,7 @@ function Module3() {
                   />
                 </label>
               </div>
-              <button onClick={calculateAPR}>Calculate APR</button>
-              {checkingAPR !== null && (
-                <div>
-                  <h3>Checking Account APR: ${checkingAPR}</h3>
-                </div>
-              )}
+              <button onClick={calculateSavingsAPR}>Calculate Savings APR</button>
               {savingsAPR !== null && (
                 <div>
                   <h3>Savings Account APR: ${savingsAPR}</h3>
@@ -87,34 +94,32 @@ function Module3() {
               )}
             </div>
           </div>
-          <div className="section how-to-choose">
-            <div className="section-title">How to Choose a Bank:</div>
-            <div className="section-content">
-              Trust: No monthly, overdraft or setup fees. No hidden fees.<br />
-              Convenience: Easy to setup and get money in and out. Good customer service.<br />
-              Features: Competitive interest rate, free bill paying
-            </div>
-          </div>
-          <div className="section checking-account">
-            <div className="section-title">Checking Account</div>
-            <div className="section-content">
-              A money hub. All income is filtered through your checking account before moving on to other accounts (savings, investment)<br />
-              <br />
-              Choosing a Checking Account:<br />
-              If you need to deposit cash:<br />
-              - A local bank’s checking account<br />
-              If you don’t need to deposit cash:<br />
-              - An online no-fee checking account
-            </div>
-          </div>
-          <div className="section savings-account">
-            <div className="section-title">Savings Account</div>
-            <div className="section-content">
-              For short to mid-term savings (1-5 years)<br />
-              Browse through the bank accounts on bankrate to select one that makes sense to you
 
-            </div>
+          <div className="section info">
+          <div className="section-title">How to Choose a Bank:</div>
+          <div className="section-content">
+            <ul>
+              <li><b>Trust:</b> No monthly, overdraft or setup fees. No hidden fees.</li>
+              <li><b>Convenience:</b> Easy to setup and get money in and out. Good customer service.</li>
+              <li><b>Features:</b> Competitive interest rate, free bill paying</li>
+            </ul>
+            <h3>Checking Account:</h3>
+            <ul>
+              <li>This is your central hub. All income is filtered through your checking account before moving on to other accounts (savings, investment).</li>
+              <li>Choosing a Checking Account:</li>
+              <ul>
+                <li>If you need to deposit cash: A local bank’s checking account</li>
+                <li>If you don’t need to deposit cash: An online no-fee checking account</li>
+              </ul>
+            </ul>
+            <h3>Savings Account:</h3>
+            <ul>
+              <li>For short to mid-term savings (1-5 years)</li>
+              <li>Browse through the bank accounts on <a href="https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/" target="_blank" rel="noopener noreferrer"> bankrate </a> to select one that makes sense to you</li>
+            </ul>
           </div>
+        </div>
+
           <div className="section actions">
             <div className="section-title">Actions</div>
             <div className="section-content">
@@ -173,3 +178,4 @@ function Module3() {
 }
 
 export default Module3;
+

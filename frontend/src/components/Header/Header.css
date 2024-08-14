@@ -36,7 +36,7 @@
     font-size: 13px;
     cursor: pointer;
     position: relative;
-    bottom: -10px; /* Move the tabs down to align with the bottom of the header */
+    bottom: -20px; /* Move the tabs down to align with the bottom of the header */
   }
   
   .tab:hover {
