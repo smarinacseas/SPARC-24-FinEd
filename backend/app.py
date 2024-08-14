@@ -121,6 +121,30 @@ def quiz():
         ]
     return jsonify(questions)
 
+#route to update progress
+@app.route('/api/update-progress', methods=['POST'])
+def update_progress():
+    data = request.json
+    email = data.get('email')
+    module = data.get('module')
+    progress = data.get('progress')
+
+    user = User.query.filter_by(email=email).first()
+    if user:
+        # Update the module progress in the JSON column
+        if user.module_progress is None:
+            user.module_progress = {}
+        
+        user.module_progress[module] = progress
+        db.session.commit()
+        return '', 204
+    else:
+        return '', 404
+
+@app.route('/api/get-progress', methods=['GET'])
+def get_progress():
+    return jsonify(module_progress)  # Return the stored progress
+
 
 if __name__ == '__main__':
     app.run(debug=True)

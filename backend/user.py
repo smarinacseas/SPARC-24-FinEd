@@ -11,7 +11,8 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     age = db.Column(db.Integer)
     occupation = db.Column(db.String(50))
-    module = db.Column(db.Integer)
+    #module = db.Column(db.Integer)
+    module_progress = db.Column(db.JSON) #change to JSON
 
     def __repr__(self):
         return f'<User {self.email}>'

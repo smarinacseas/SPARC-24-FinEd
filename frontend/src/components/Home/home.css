@@ -1,46 +1,58 @@
 .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f0f0f0;
-    height: 100vh; /* Full height of the viewport */
-  }
-  
-  .home-title {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .home-buttons-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .home-button {
-    width: 250px; /* Slightly wider for better aesthetics */
-    padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: #4E6766;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .home-button:hover {
-    background-color: #3d5555;
-    transform: translateY(-2px); /* Slight lift effect on hover */
-  }
-  
-  .home-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.home-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.home-buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-button {
+  width: 250px; /* Slightly wider for better aesthetics */
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #4E6766;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  position: relative; /* Positioning context for the progress bar */
+}
+
+.home-button:hover {
+  background-color: #3d5555;
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.home-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Progress bar */
+.progress-bar {
+  background-color: #fcfcfc; /* Color of the progress bar */
+  height: 4px; /* Height of the progress bar */
+  border-radius: 2px; /* Rounded corners */
+  transition: width 0.4s ease; /* Smooth transition for width change */
+  position: absolute; /* Positioning within the button */
+  bottom: 5px; /* Positioning from the bottom of the button */
+  left: 0; /* Align to the left */
+  width: 0; /* Start width */
+}
