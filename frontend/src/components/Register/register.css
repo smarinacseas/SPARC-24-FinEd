@@ -36,6 +36,14 @@
     width: 50%;
 }
 
+.registerUser .btn.btn-success {
+    background-color: #4E6766;
+}
+
+.registerUser .btn.btn-success:hover {
+    background-color: #7faca9;
+}
+
 .registerUser h3 {
     text-align: center;
     font-weight: bold;

@@ -13,6 +13,7 @@ import Module5 from './components/Modules/Module5/Module5';
 import Module6 from './components/Modules/Module6/Module6';
 import Module7 from './components/Modules/Module7/Module7';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -24,7 +25,7 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
-          <Header /> {/* Header is rendered here, outside of Routes */}
+          <Header /> {/* Always render the Header */}
           <Routes>
             {process.env.REACT_APP_DEV_MODE === 'true' ? (
               <Route path="*" element={<Home />} />
