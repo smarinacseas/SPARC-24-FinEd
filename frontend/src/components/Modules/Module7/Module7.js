@@ -13,24 +13,24 @@ function Module7() {
   const handleCheckboxChange = async (item) => {
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
-      updateProgress(updatedCheckedItems); // Update progress on checkbox change
+      //updateProgress(updatedCheckedItems); // Update progress on checkbox change
       return updatedCheckedItems;
     });
   };
 
   // Function to update progress in the backend
-  const updateProgress = async (updatedCheckedItems) => {
-    const totalActions = Object.keys(updatedCheckedItems).length;
-    const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
-    const progress = (completedActions / totalActions) * 100;
+  //const updateProgress = async (updatedCheckedItems) => {
+  //  const totalActions = Object.keys(updatedCheckedItems).length;
+  //  const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+   // const progress = (completedActions / totalActions) * 100;
 
-    try {
+  //  try {
       // Send progress to backend
-      await axios.post('/api/update-progress', { module: 'module7', progress });
-    } catch (error) {
-      console.error('Error updating progress:', error);
-    }
-  };
+   //   await axios.post('/api/update-progress', { module: 'module7', progress });
+  //  } catch (error) {
+  //    console.error('Error updating progress:', error);
+  //  }
+  //};
 
   return (
     <div className="module-container">
