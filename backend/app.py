@@ -84,8 +84,6 @@ def login():
 
     return jsonify({'message': 'Login successful'}), 200
 
-<<<<<<< HEAD
-=======
 # Endpoint for quiz page
 @app.route('/quiz', methods=['GET'])
 def quiz():
@@ -124,6 +122,5 @@ def quiz():
     return jsonify(questions)
 
 
->>>>>>> edb5915ce0677be1c0ddca1bd8c2733ccc6b337e
 if __name__ == '__main__':
     app.run(debug=True)
