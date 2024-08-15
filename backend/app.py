@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 # Set secret key (session management + CSRF protection)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
+git 
 # Enable CSRF protection to ensure requests are from authenticated users
 csrf = CSRFProtect(app)
 
