@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Dropdown } from 'react-bootstrap';
 import './Header.css';
 
 function Header() {
@@ -54,14 +53,6 @@ function Header() {
     });
   };
 
-  const renderDropdownItems = () => {
-    return modules.map((module, index) => (
-      <Dropdown.Item as={Link} key={index} to={module.path}>
-        {module.name}
-      </Dropdown.Item>
-    ));
-  };
-
   return (
     <header className="header">
       <div className="brand">Easy Money</div>
@@ -74,19 +65,7 @@ function Header() {
       )}
       {isAuthenticated && (
         <div className="settings">
-          <Dropdown>
-            <Dropdown.Toggle variant="link" id="dropdown-basic" className="custom-dropdown-toggle">
-              <div className="menu-icon">
-                <div className="menu-line"></div>
-                <div className="menu-line"></div>
-                <div className="menu-line"></div>
-              </div>
-            </Dropdown.Toggle>
-            <Dropdown.Menu align="right">
-              {windowWidth <= 768 && renderDropdownItems()}
-              <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <button onClick={handleLogout} className="logout-button">Logout</button>
         </div>
       )}
     </header>
