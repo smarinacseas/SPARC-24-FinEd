@@ -12,6 +12,7 @@ class User(db.Model):
     age = db.Column(db.Integer)
     occupation = db.Column(db.String(50))
     module = db.Column(db.Integer)
+    demographics_completed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<User {self.email}>'

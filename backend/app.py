@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from user import db, User
 from flask_bcrypt import Bcrypt
 import os
@@ -34,6 +35,8 @@ db.init_app(app)
 # Enable CORS for all routes
 #CORS(app)
 CORS(app, supports_credentials=True)
+
+migrate = Migrate(app, db)
 
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
@@ -83,6 +86,28 @@ def login():
         return jsonify({'message': 'The username or password is not correct. Please try again'}), 401
 
     return jsonify({'message': 'Login successful'}), 200
+
+
+# Endpoint for demographics info
+@app.route('/demographics', methods=['POST'])
+@csrf.exempt
+def demographics():
+    data = request.json
+    user_id = data.get('user_id')
+    demographic_answers = data.get('answers')  # Assume this is a dictionary of answers
+
+    # Find the user
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    # Save the answers to the database (You might need to create a separate table or columns)
+    # For simplicity, assuming you store it as a JSON string in the user model
+    user.demographic_data = json.dumps(demographic_answers)
+    user.demographics_completed = True
+    db.session.commit()
+
+    return jsonify({'message': 'Demographic data saved successfully'}), 200
 
 # Endpoint for quiz page
 @app.route('/quiz', methods=['GET'])
