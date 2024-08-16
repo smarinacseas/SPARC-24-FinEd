@@ -1,28 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
-import './home.css'; // Import the CSS file
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api';
+import './home.css';
 
 function Home() {
-  // const { logout } = useAuth();
+  //const { user } = useAuth();
+  const { userEmail, isAuthenticated } = useAuth();  // Retrieve the authenticated user
   const navigate = useNavigate();
+  const [moduleProgress, setModuleProgress] = useState({});
 
   const goToModule = (modulePath) => {
     navigate(modulePath);
   };
 
+  useEffect(() => {
+    console.log('Before fetch');
+    const fetchProgress = async () => {
+      console.log('in fetch');
+      console.log('User Email:', userEmail); 
+      if (isAuthenticated && userEmail) {
+        try {
+          console.log('before response');
+          const response = await api.get('/get-progress', {
+            params: { email: userEmail }
+          });
+          console.log('after reponse');
+          console.log('Backend Response:', response);
+          console.log('Module Progress Data:', response.data); // Log the data
+          setModuleProgress(response.data);
+        } catch (error) {
+          console.error('Error fetching progress:', error);
+        }
+      }
+    };
+
+    fetchProgress();
+  }, [userEmail]);
+
   return (
     <div className="home-container">
       <h1 className="home-title">Roadmap</h1>
-      {/* <button className="home-button" onClick={logout}>Logout</button> */}
       <button className="home-button" onClick={() => goToModule('/quiz')}>Go to Quiz</button>
-      <button className="home-button" onClick={() => goToModule('/module1')}>Go to Module 1</button>
-      <button className="home-button" onClick={() => goToModule('/module2')}>Go to Module 2</button>
-      <button className="home-button" onClick={() => goToModule('/module3')}>Go to Module 3</button>
-      <button className="home-button" onClick={() => goToModule('/module4')}>Go to Module 4</button>
-      <button className="home-button" onClick={() => goToModule('/module5')}>Go to Module 5</button>
-      <button className="home-button" onClick={() => goToModule('/module6')}>Go to Module 6</button>
-      <button className="home-button" onClick={() => goToModule('/module7')}>Go to Module 7</button>
+
+      {Object.keys(moduleProgress).map((module, index) => (
+        <div key={index} className="module">
+          <button className="home-button" onClick={() => goToModule(`/${module}`)}>
+            Go to {module.charAt(0).toUpperCase() + module.slice(1)}
+            {/* Ensure the progress bar is always rendered, even for 0% progress */}
+            <div className="progress-bar" style={{ width: `${moduleProgress[module] ?? 0}%` }}></div>
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

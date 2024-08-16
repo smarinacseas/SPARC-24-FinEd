@@ -16,7 +16,7 @@ table = metadata.tables.get(table_name)
 
 if table is not None:
     print(f"Columns in table '{table_name}':")
-    for column in table.columns:
+    for column in table.columns: 
         print(f"{column.name} ({column.type})")
 
     with engine.connect() as connection:

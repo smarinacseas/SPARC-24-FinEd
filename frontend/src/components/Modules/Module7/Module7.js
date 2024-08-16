@@ -1,36 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Module7.css';
-import axios from 'axios'; // Import axios for API calls
+import axios from 'axios';
+import api from '../../../api';
+import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
+
+/*
+async function fetchCsrfToken() {
+  try {
+    const response = await axios.get('http://localhost:5000/api/get-csrf-token');
+    return response.data.csrfToken; // Adjust based on your backend response
+  } catch (error) {
+    console.error('Error fetching CSRF token:', error);
+    return null;
+  }
+}
+*/
 
 function Module7() {
+  const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
   const [checkedItems, setCheckedItems] = useState({
     setupAutomaticTransfers: false,
     setupAutomatedPayments: false,
     organizeMoney: false,
   });
+  //const [csrfToken, setCsrfToken] = useState(null);
 
-  // Function to handle checkbox changes
+  useEffect(() => {
+    const savedCheckedItems = localStorage.getItem('module7CheckedItems');
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+    }
+
+    // Fetch CSRF token on component mount
+    //fetchCsrfToken().then(token => setCsrfToken(token));
+  }, []);
+
   const handleCheckboxChange = async (item) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return; // Prevent further actions if not authenticated
+    }
+
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
-      //updateProgress(updatedCheckedItems); // Update progress on checkbox change
+      const totalActions = Object.keys(updatedCheckedItems).length;
+      const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedCheckedItems, progress); // Update progress and state
+      localStorage.setItem('module7CheckedItems', JSON.stringify(updatedCheckedItems)); // Save to local storage
       return updatedCheckedItems;
     });
   };
 
-  // Function to update progress in the backend
-  //const updateProgress = async (updatedCheckedItems) => {
-  //  const totalActions = Object.keys(updatedCheckedItems).length;
-  //  const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
-   // const progress = (completedActions / totalActions) * 100;
+  const updateProgress = async (updatedCheckedItems, progress) => {
+    if (userEmail) {
+      //const payload = { email: userEmail, module: 'module7', progress: progress };
+      //const accessToken = localStorage.getItem('accessToken'); 
+      try {
+        //const response = await api.post('/update-progress', {payload});
 
-  //  try {
-      // Send progress to backend
-   //   await axios.post('/api/update-progress', { module: 'module7', progress });
-  //  } catch (error) {
-  //    console.error('Error updating progress:', error);
-  //  }
-  //};
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module7',
+          progress: progress,
+         })
+
+        /*}, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`, // Use the actual token here
+            'X-CSRFToken': csrfToken // Include CSRF token if needed
+          }
+        });
+        */
+
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email or CSRF token is not available');
+    }
+  };
+
+  //if (!isAuthenticated) {
+  //  return <p>Please log in to access this module.</p>;
+  //}
 
   return (
     <div className="module-container">
@@ -111,4 +166,5 @@ function Module7() {
     </div>
   );
 }
+
 export default Module7;

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Module6.css';
-import axios from 'axios'; // Import axios for API calls
-
+import axios from 'axios';
+import api from '../../../api';
+import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 
 function Module6() {
+  const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
   const [checkedItems, setCheckedItems] = useState({
     spendingHabits: false,
     setPriorities: false,
@@ -15,29 +17,49 @@ function Module6() {
     goal: '',
   });
 
-  // Function to handle checkbox changes
+  useEffect(() => {
+    //const savedCheckedItems = localStorage.getItem('module6CheckedItems');
+    const savedCheckedItems = localStorage.getItem('module6CheckedItems');
+    console.log('Saved Checked Items:', savedCheckedItems);
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+    }
+  }, []);
+
   const handleCheckboxChange = async (item) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return; // Prevent further actions if not authenticated
+    }
+
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
-      //updateProgress(updatedCheckedItems); // Update progress on checkbox change
+      const totalActions = Object.keys(updatedCheckedItems).length;
+      const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedCheckedItems, progress); // Update progress and state
+      localStorage.setItem('module6CheckedItems', JSON.stringify(updatedCheckedItems)); // Save to local storage
       return updatedCheckedItems;
     });
   };
 
-  // Function to update progress in the backend
-  //const updateProgress = async (updatedCheckedItems) => {
-  //  const totalActions = Object.keys(updatedCheckedItems).length;
-  //  const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
-  //  const progress = (completedActions / totalActions) * 100;
-
-  //  try {
-      // Send progress to backend
-  //    await axios.post('/api/update-progress', { module: 'module5', progress });
-  //  } catch (error) {
-  //    console.error('Error updating progress:', error);
-  //  }
-  //};
-
+  const updateProgress = async (updatedCheckedItems, progress) => {
+    if (userEmail) {
+      try {
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module6',
+          progress: progress,
+        });
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email or CSRF token is not available');
+    }
+  };
 
   // Function to handle input changes
   const handleInputChange = (event) => {
@@ -57,7 +79,7 @@ function Module6() {
     <div className="module-container">
       <div className="main-content">
         <h1>Module 6</h1>
-        <h2>Budgeting and Expense Tracking</h2>
+        <h2>Budgeting</h2>
         <div className="content-grid">
           <div className="section motivating-example">
             <div className="section-title">Importance of Budgeting</div>
@@ -77,16 +99,16 @@ function Module6() {
             <div className="section-title">How should you budget your money?</div>
             <div className="section-content">
               <p><strong>Set financial goals:</strong> Determine what you want to achieve with your budget, such as saving for a vacation, paying off debt, or building an emergency fund.</p>
-              <p><strong>Gather Financial Information:</strong>Collect your income statements (salary, side jobs) and monthly expenses (rent, utilities, groceries, entertainment).</p>
-              <p><strong>Track Expenses: </strong>Categorize your monthly expenses into fixed (rent, insurance) and variable (groceries, entertainment) costs. Use apps, spreadsheets, or pen and paper to track where your money goes.</p>
+              <p><strong>Gather Financial Information:</strong> Collect your income statements (salary, side jobs) and monthly expenses (rent, utilities, groceries, entertainment).</p>
+              <p><strong>Track Expenses: </strong> Categorize your monthly expenses into fixed (rent, insurance) and variable (groceries, entertainment) costs. Use apps, spreadsheets, or pen and paper to track where your money goes.</p>
               <p><strong>Create Your Budget: </strong> Allocate your income to each expense category. A popular method is the 50/30/20 rule:</p>
               <ul>
                 <li>50% for needs (essentials)</li>
                 <li>30% for wants (non-essentials)</li>
                 <li>20% for savings and debt repayment</li>
               </ul>
-              <p><strong>Monitor and Adjust: </strong>Regularly review your budget to see if you’re staying on track. Adjust categories and amounts as needed based on changes in income or expenses.</p>
-              <p><strong>Review Regularly: </strong>Check your budget monthly or quarterly to ensure you’re meeting your financial goals and make adjustments as necessary.</p>
+              <p><strong>Monitor and Adjust: </strong> Regularly review your budget to see if you’re staying on track. Adjust categories and amounts as needed based on changes in income or expenses.</p>
+              <p><strong>Review Regularly: </strong> Check your budget monthly or quarterly to ensure you’re meeting your financial goals and make adjustments as necessary.</p>
             </div>
           </div>
           <div className="section actions">
@@ -102,7 +124,7 @@ function Module6() {
                   <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Determine your spending habits (use a budgeting app or use our google sheets below).</span>
                 </label>
                 <p style={{ marginTop: '5px', opacity: checkedItems.spendingHabits ? 0.5 : 1 }}>
-                  Use an app or spreadsheet to anaylze your spending patterns and identify areas where you can cut back.
+                  Use an app or spreadsheet to analyze your spending patterns and identify areas where you can cut back.
                   <br />
                   <a href="https://docs.google.com/spreadsheets/d/1kHD7R8UNuyHVYkzjfrqkQQqjUeGBK25qOQHIOVrCLRY/edit?usp=sharingK" target="_blank" rel="noopener noreferrer">Click here for a copy of google sheets tracker</a>
                 </p>
@@ -124,23 +146,23 @@ function Module6() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.setPriorities ? 0.5 : 1 }}>
                   Define what’s most important to you financially and set achievable goals to work towards those priorities.
                 </p>
-                  <input
-                    type="text"
-                    name="priority"
-                    placeholder="Enter your priority"
-                    value={goals.priority}
-                    onChange={handleInputChange}
-                    style={{ margin: '5px 0', width: '100%', opacity: checkedItems.setPriorities ? 0.5 : 1, pointerEvents: checkedItems.setPriorities ? 'none' : 'auto' }} // Disable input if checked
-                  />
-                  <input
-                    type="text"
-                    name="goal"
-                    placeholder="Enter your goal"
-                    value={goals.goal}
-                    onChange={handleInputChange}
-                    style={{ margin: '5px 0', width: '100%', opacity: checkedItems.setPriorities ? 0.5 : 1, pointerEvents: checkedItems.setPriorities ? 'none' : 'auto' }} // Disable input if checked
-                  />
-                </div>
+                <input
+                  type="text"
+                  name="priority"
+                  placeholder="Enter your priority"
+                  value={goals.priority}
+                  onChange={handleInputChange}
+                  style={{ margin: '5px 0', width: '100%', opacity: checkedItems.setPriorities ? 0.5 : 1, pointerEvents: checkedItems.setPriorities ? 'none' : 'auto' }} // Disable input if checked
+                />
+                <input
+                  type="text"
+                  name="goal"
+                  placeholder="Enter your goal"
+                  value={goals.goal}
+                  onChange={handleInputChange}
+                  style={{ margin: '5px 0', width: '100%', opacity: checkedItems.setPriorities ? 0.5 : 1, pointerEvents: checkedItems.setPriorities ? 'none' : 'auto' }} // Disable input if checked
+                />
+              </div>
               <div>
                 <label style={{ opacity: checkedItems.createBudget ? 0.5 : 1 }}>
                   <input
@@ -161,4 +183,5 @@ function Module6() {
     </div>
   );
 }
+
 export default Module6;
