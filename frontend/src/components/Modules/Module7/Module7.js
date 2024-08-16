@@ -23,7 +23,7 @@ function Module7() {
     setupAutomatedPayments: false,
     organizeMoney: false,
   });
-  const [csrfToken, setCsrfToken] = useState(null);
+  //const [csrfToken, setCsrfToken] = useState(null);
 
   useEffect(() => {
     const savedCheckedItems = localStorage.getItem('module7CheckedItems');
