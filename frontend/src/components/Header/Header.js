@@ -5,7 +5,8 @@ import { Dropdown } from 'react-bootstrap';
 import './Header.css';
 
 function Header() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
+
   const { isAuthenticated, logout } = useAuth();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 

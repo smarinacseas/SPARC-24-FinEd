@@ -25,93 +25,85 @@ const Demographics = () => {
   };
 
   return (
-    <div>
-      <h3>User Information</h3>
-      Please answer the below questions with as much specificity as you feel comfortable with:
+    <div className="demographics-container">
+      <div className="form-box">
+        <h3>User Information</h3>
+        <p>Please answer the below questions with as much specificity as you feel comfortable with:</p>
 
-      <form onSubmit={handleSubmit}>
+        <form className="demographics-form" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="age">Age:</label>
-          <input
-            type="text"
-            name="age"
-            className="limited-input" // Apply the class
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="gender">Gender:</label>
-          <input
-            type="text"
-            name="gender"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="education_level">Education Level:</label>
-          <input
-            type="text"
-            name="education_level"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="income_level">Income Level:</label>
-          <input
-            type="text"
-            name="income_level"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="marital_status">Marital Status:</label>
-          <input
-            type="text"
-            name="marital_status"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            name="location"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="financial_goals">Financial Goals:</label>
-          <input
-            type="text"
-            name="financial_goals"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <div>
-          <label htmlFor="financial_literacy_level">Financial Literacy Level:</label>
-          <input
-            type="text"
-            name="financial_literacy_level"
-            className="limited-input"
-            onChange={handleChange}
-            maxLength={100} // Limit to 100 characters
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+            <label htmlFor="age">Age:</label>
+            <input
+              type="number"
+              name="age"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <div>
+            <label htmlFor="income_level">Income Level:</label>
+            <input
+              type="number"
+              name="income_level"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <div>
+            <label htmlFor="gender">Gender:</label>
+            <select name="gender" className="limited-input" onChange={handleChange}>
+                <option value="">Select from Dropdown</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Non-binary">Non-binary</option>
+                <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+            </div>
+          <div>
+            <label htmlFor="financial_responsibilities">What are your current financial responsibilities <br/> (e.g., dependents, mortgage)?</label>
+            <input
+              type="text"
+              name="financial_responsibilities"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <div>
+            <label htmlFor="savings_investments">Can you describe your current savings and investment status?</label>
+            <input
+              type="text"
+              name="savings_investments"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <div>
+            <label htmlFor="debt_status">Can you describe your current debt situation?</label>
+            <input
+              type="text"
+              name="debt_status"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <div>
+            <label htmlFor="financial_goals">What are your financial goals?</label>
+            <input
+              type="text"
+              name="financial_goals"
+              className="limited-input"
+              onChange={handleChange}
+              maxLength={100} // Limit to 100 characters
+            />
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 };
