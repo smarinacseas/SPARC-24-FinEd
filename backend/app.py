@@ -7,6 +7,8 @@ from flask_migrate import Migrate
 from user import db, User
 from flask_bcrypt import Bcrypt
 import os
+import json  # Import the json module
+
 
 # Load env vars from .env file
 load_dotenv()
@@ -85,11 +87,11 @@ def login():
     if not cur_user or not bcrypt.check_password_hash(cur_user.password, password):
         return jsonify({'message': 'The username or password is not correct. Please try again'}), 401
 
-    return jsonify({'message': 'Login successful'}), 200
+    return jsonify({'message': 'Login successful', 'user_id': cur_user.id, 'demographicsCompleted': cur_user.demographics_completed}), 200
 
 
 # Endpoint for demographics info
-@app.route('/demographics', methods=['POST'])
+@app.route('/info', methods=['POST'])
 @csrf.exempt
 def demographics():
     data = request.json
@@ -102,7 +104,8 @@ def demographics():
         return jsonify({'message': 'User not found'}), 404
 
     # Save the answers to the database (You might need to create a separate table or columns)
-    # For simplicity, assuming you store it as a JSON string in the user model
+    # For simplicity, assuming you store it as a JSON string
+    #  in the user model
     user.demographic_data = json.dumps(demographic_answers)
     user.demographics_completed = True
     db.session.commit()

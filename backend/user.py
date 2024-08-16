@@ -13,6 +13,7 @@ class User(db.Model):
     occupation = db.Column(db.String(50))
     module = db.Column(db.Integer)
     demographics_completed = db.Column(db.Boolean, default=False)
+    demographic_data = db.Column(db.Text)
 
     def __repr__(self):
         return f'<User {self.email}>'
