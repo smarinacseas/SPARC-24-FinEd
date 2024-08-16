@@ -1,68 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import '../AllModules.css'
 import './Module1.css';
 import PieChart from './Pie_chart.png';
-import axios from 'axios';
 import api from '../../../api';
-import { useAuth } from '../../../context/AuthContext'; 
-
+import { useAuth } from '../../../context/AuthContext';
+import Fireworks from '../fireworks.gif';
 
 function Module1() {
   const { isAuthenticated, userEmail } = useAuth();
-  const [hoveredSection, setHoveredSection] = useState(null);
+
+  // State Management:
   const [selectedActions, setSelectedActions] = useState({
     checkCreditReport: false,
-    reviewBenefits: false,  // Make sure this key matches the `onChange` argument
+    reviewBenefits: false,
     setupAutopay: false,
   });
 
-  const chartSections = [
-    { percentage: 35, label: "Payment History", description: "How reliable you are. Late payments hurt you" },
-    { percentage: 30, label: "Amounts Owed", description: "“How much you owe and how much credit you have available, aka your credit utilization rate." },
-    { percentage: 15, label: "Length of History", description: "How long you've had credit." },
-    { percentage: 10, label: "New Credit", description: "“Older accounts are better, because they show you’re reliable. Avoid opening too many new accounts at once." },
-    { percentage: 10, label: "Types of Credit", description: "For example, credit cards, student loans. Varied is better." }
-  ];
+  const [allChecked, setAllChecked] = useState(false);
 
-  const getRotationDegrees = (index) => {
-    let totalRotation = 0;
-    for (let i = 0; i < index; i++) {
-      totalRotation += chartSections[i].percentage * 3.6;
-    }
-    return totalRotation;
-  };
-
-
-  //const [selectedActions, setSelectedActions] = useState([]);
+  // Fetch saved checkbox states from localStorage on component mount
   useEffect(() => {
     const savedActions = localStorage.getItem('module1CheckedItems');
-    console.log('Saved Checked Items:', savedActions); //debug
     if (savedActions) {
       setSelectedActions(JSON.parse(savedActions));
     }
   }, []);
 
+  // Update allChecked state when selectedActions changes
+  useEffect(() => {
+    const allChecked = Object.values(selectedActions).every(Boolean);
+    setAllChecked(allChecked);
+  }, [selectedActions]);
+
+  // Handle checkbox changes
   const handleCheckboxChange = async (action) => {
     if (!isAuthenticated) {
       console.log('User is not authenticated');
-      return; // Prevent further actions if not authenticated
+      return;
     }
 
     setSelectedActions((prev) => {
       const updatedActions = { ...prev, [action]: !prev[action] };
-      console.log('Updated Actions:', updatedActions); // Debug line to inspect state changes
       const totalActions = Object.keys(updatedActions).length;
-      console.log('total action:', totalActions); //debug line
       const completedActions = Object.values(updatedActions).filter(Boolean).length;
       const progress = (completedActions / totalActions) * 100;
-      console.log('progress:', progress); //debug line
 
-      updateProgress(updatedActions, progress); // Update progress and state
+      updateProgress(updatedActions, progress); // Update progress
       localStorage.setItem('module1CheckedItems', JSON.stringify(updatedActions)); // Save to local storage
       return updatedActions;
     });
   };
 
+  // Progress Update:
   const updateProgress = async (updatedActions, progress) => {
     if (userEmail) {
       try {
@@ -80,56 +68,22 @@ function Module1() {
     }
   };
 
-  const MyComponent = () => {
-    return (
-      <div className="image-container">
-        <img src={PieChart} alt="Descriptive Alt Text" className="interactive-image" />
-      </div>
-    );
-  };
-  
-  /*
-  const handleCheckboxChange = (action) => {
-    setSelectedActions(prevActions =>
-      prevActions.includes(action)
-        ? prevActions.filter(a => a !== action)
-        : [...prevActions, action]
-    );
-  };
-  */
-
   return (
     <div className="module-container">
       <div className="main-content">
         <h1>Module 1</h1>
         <h2>Credit Cards</h2>
         <div className="content-grid">
-          <div className="section motivatin_example">
+          <div className="section motivating_example">
             <div className="section-title">How to Improve Your Credit Score</div>
             <div className="section-content">
               <p>Hover over the sections of the pie chart to see what impacts your credit score:</p>
               <div className="pie-chart-container">
                 <img src={PieChart} alt="Pie Chart" className="interactive-image" />
                 <div className="pie-chart">
-                  {chartSections.map((section, index) => (
-                    <div
-                      key={index}
-                      className="pie-piece"
-                      style={{
-                        '--rotate-start': `${getRotationDegrees(index)}deg`,
-                        '--rotate-end': `${getRotationDegrees(index) + section.percentage * 3.6}deg`
-                      }}
-                      onMouseEnter={() => setHoveredSection(section)}
-                      onMouseLeave={() => setHoveredSection(null)}
-                    ></div>
-                  ))}
+                  {/* Pie chart code here */}
                 </div>
               </div>
-              {hoveredSection && (
-                <div className="hover-info">
-                  <strong>{hoveredSection.label}</strong>: {hoveredSection.description}
-                </div>
-              )}
             </div>
           </div>
           <div className="section info">
@@ -165,44 +119,54 @@ function Module1() {
           <div className="section actions">
             <div className="section-title">Actions</div>
             <div className="section-content">
-              <form>
-                <div>
+              <div>
+                <label style={{ opacity: selectedActions.checkCreditReport ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action1"
-                    name="actions"
-                    value="Check your credit report/credit score."
                     checked={selectedActions.checkCreditReport}
                     onChange={() => handleCheckboxChange('checkCreditReport')}
                   />
-                  <label htmlFor="action1">Check your credit report/credit score. You can get a free credit report from <a href="https://www.creditkarma.com/" target="_blank" rel="noopener noreferrer">creditkarma.com</a> and you can check your credit report for free once a year at <a href="https://www.annualcreditreport.com/index.action" target="_blank" rel="noopener noreferrer">annualcreditreport.com</a></label>
-                </div>
-                <div>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Check your credit report/credit score.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: selectedActions.checkCreditReport ? 0.5 : 1 }}>
+                  You can get a free credit report from <a href="https://www.creditkarma.com/" target="_blank" rel="noopener noreferrer">creditkarma.com</a> and check your credit report for free once a year at <a href="https://www.annualcreditreport.com/index.action" target="_blank" rel="noopener noreferrer">annualcreditreport.com</a>
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: selectedActions.reviewBenefits ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action2"
-                    name="actions"
-                    value="Review benefits on your current credit card and consider opening a new one."
                     checked={selectedActions.reviewBenefits}
                     onChange={() => handleCheckboxChange('reviewBenefits')}
                   />
-                  <label htmlFor="action2">Review benefits on your current credit card and consider opening a new one.</label>
-                </div>
-                <div>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Review benefits on your current credit card and consider opening a new one.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: selectedActions.reviewBenefits ? 0.5 : 1 }}>
+                  Check the benefits on your current credit card and explore options for new cards.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: selectedActions.setupAutopay ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action3"
-                    name="actions"
-                    value="If financially feasible, set up autopay to pay off your credit card in full each month."
                     checked={selectedActions.setupAutopay}
                     onChange={() => handleCheckboxChange('setupAutopay')}
                   />
-                  <label htmlFor="action3">Set up autopay to pay off your credit card in full each month.</label>
-                </div>
-              </form>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Set up autopay to pay off your credit card in full each month.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: selectedActions.setupAutopay ? 0.5 : 1 }}>
+                  Automate your credit card payments to ensure they are paid in full each month.
+                </p>
+              </div>
             </div>
           </div>
         </div>
+        {/* Fireworks Display */}
+        {allChecked && (
+          <div className="fireworks-container">
+            <img src={Fireworks} alt="Fireworks" className="fireworks-gif" />
+          </div>
+        )}
       </div>
     </div>
   );

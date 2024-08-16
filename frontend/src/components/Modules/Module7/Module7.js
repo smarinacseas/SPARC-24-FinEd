@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Module7.css';
-import axios from 'axios';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 
