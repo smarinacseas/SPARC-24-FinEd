@@ -1,128 +1,182 @@
 import React, { useState } from 'react';
-import { Line } from 'react-chartjs';
+import { Bar } from 'react-chartjs';
 import './interestCalculator.css';
 
-const InterestCalculator = () => {
-    const [initialInvestment, setInitialInvestment] = useState('');
-    const [annualReturn, setAnnualReturn] = useState('');
-    const [annualContribution, setAnnualContribution] = useState('');
-    const [years, setYears] = useState('');
-    const [frequency, setFrequency] = useState('annually');
-    const [result, setResult] = useState(null);
-    const [graphData, setGraphData] = useState(null);
-  
-    const calculate = (e) => {
-      e.preventDefault();
-      // Calculation logic for compound interest
-      const rate = parseFloat(annualReturn) / 100;
-      const periods = frequency === 'annually' ? 1 : frequency === 'monthly' ? 12 : 365;
-      const totalPeriods = periods * parseInt(years);
-      let futureValue = parseFloat(initialInvestment);
-      let contributions = parseFloat(annualContribution) / periods;
-      let dataPoints = [];
-      
-      for (let i = 1; i <= totalPeriods; i++) {
-        futureValue = futureValue * (1 + rate / periods) + contributions;
-        if (i % periods === 0) {
-          dataPoints.push({ x: i / periods, y: futureValue.toFixed(2) });
-        }
-      }
-      
-      setResult(futureValue.toFixed(2));
-      setGraphData({
-        labels: dataPoints.map(point => point.x),
-        datasets: [
-          {
-            label: 'Future Balance',
-            data: dataPoints.map(point => point.y),
-            borderColor: 'rgba(75,192,192,1)',
-            backgroundColor: 'rgba(75,192,192,0.2)',
-            fill: true,
-          },
-        ],
-      });
+const CompoundInterestCalculator = () => {
+  const [initialDeposit, setInitialDeposit] = useState('');
+  const [annualContribution, setAnnualContribution] = useState('');
+  const [currentAge, setCurrentAge] = useState('');
+  const [retirementAge, setRetirementAge] = useState('');
+  const [rateOfReturn, setRateOfReturn] = useState('');
+  const [compoundFrequency, setCompoundFrequency] = useState('Annually');
+  const [yearlyBalances, setYearlyBalances] = useState([]);
+  const [message, setMessage] = useState('');
+
+  const calculateCompoundInterest = (principal, annualContribution, rate, years, frequency) => {
+    const frequencyMap = {
+      Daily: 365,
+      Monthly: 12,
+      Annually: 1
     };
-  
-    return (
-      <div className="calculator-container">
-        <h1 className="calculator-title">Compound Interest Calculator</h1>
-        <form className="calculator-form" onSubmit={calculate}>
-          <div className="form-group">
-            <label>Initial Deposit</label>
+
+    const compoundingPeriods = frequencyMap[frequency];
+    const interestRate = rate / 100;
+    let futureValue = principal;
+    let balances = [];
+
+    for (let i = 0; i < years; i++) {
+      futureValue += annualContribution;
+      futureValue *= (1 + interestRate / compoundingPeriods) ** compoundingPeriods;
+      balances.push(futureValue.toFixed(2)); // Save the balance at the end of each year
+    }
+
+    return balances;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (retirementAge <= currentAge) {
+      setMessage('Retirement age must be greater than current age.');
+      return;
+    }
+
+    const years = retirementAge - currentAge;
+    const balances = calculateCompoundInterest(
+      parseFloat(initialDeposit),
+      parseFloat(annualContribution),
+      parseFloat(rateOfReturn),
+      years,
+      compoundFrequency
+    );
+
+    setYearlyBalances(balances);
+    setMessage('');
+  };
+
+  // Data for chart
+  const chartData = {
+    labels: yearlyBalances.map((_, index) => `Year ${index + 1}`),
+    datasets: [
+      {
+        label: 'Total Balance',
+        data: yearlyBalances,
+        backgroundColor: '#031926', // Bar color
+        hoverBackgroundColor: '#02161b' // Hover color
+      }
+    ]
+  };
+
+  return (
+    <div className="section compounding-interest-calculator">
+      <div className="section-title">Compounding Interest Calculator</div>
+      <div className="section-content">
+        <div className="input-group">
+          <label>
+            Initial Deposit:   
             <input
               type="number"
-              value={initialInvestment}
-              onChange={(e) => setInitialInvestment(e.target.value)}
+              value={initialDeposit}
+              onChange={(e) => setInitialDeposit(e.target.value)}
+              className="form-control"
             />
-          </div>
-          <div className="form-group">
-            <label>Contributions</label>
+          </label>
+        </div>
+
+        <div className="input-group">
+          <label>
+            Annual Contribution:   
             <input
               type="number"
               value={annualContribution}
               onChange={(e) => setAnnualContribution(e.target.value)}
+              className="form-control"
             />
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  value="daily"
-                  checked={frequency === 'daily'}
-                  onChange={() => setFrequency('daily')}
-                />
-                Daily
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="monthly"
-                  checked={frequency === 'monthly'}
-                  onChange={() => setFrequency('monthly')}
-                />
-                Monthly
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="annually"
-                  checked={frequency === 'annually'}
-                  onChange={() => setFrequency('annually')}
-                />
-                Annually
-              </label>
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Investment Time Span</label>
+          </label>
+        </div>
+
+        <div className="input-group">
+          <label>
+            Current Age:   
             <input
               type="number"
-              value={years}
-              onChange={(e) => setYears(e.target.value)}
+              value={currentAge}
+              onChange={(e) => setCurrentAge(e.target.value)}
+              className="form-control"
             />
-          </div>
-          <div className="form-group">
-            <label>Estimated Rate of Return (%)</label>
+          </label>
+        </div>
+
+        <div className="input-group">
+          <label>
+            Expected Retirement Age:   
             <input
               type="number"
-              value={annualReturn}
-              onChange={(e) => setAnnualReturn(e.target.value)}
+              value={retirementAge}
+              onChange={(e) => setRetirementAge(e.target.value)}
+              className="form-control"
             />
+          </label>
+        </div>
+
+        <div className="input-group">
+          <label>
+            Estimated Rate of Return (%):   
+            <input
+              type="number"
+              value={rateOfReturn}
+              onChange={(e) => setRateOfReturn(e.target.value)}
+              className="form-control"
+            />
+          </label>
+        </div>
+
+        <div className="input-group">
+          <label>Compound Frequency:</label>
+          <div className="radio-group">
+            <label>
+              <input
+                type="radio"
+                value="Daily"
+                checked={compoundFrequency === 'Daily'}
+                onChange={(e) => setCompoundFrequency(e.target.value)}
+              />
+              Daily
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Monthly"
+                checked={compoundFrequency === 'Monthly'}
+                onChange={(e) => setCompoundFrequency(e.target.value)}
+              />
+              Monthly
+            </label>
+            <label>
+              <input
+                type="radio"
+                value="Annually"
+                checked={compoundFrequency === 'Annually'}
+                onChange={(e) => setCompoundFrequency(e.target.value)}
+              />
+              Annually
+            </label>
           </div>
-          <button type="submit" className="btn btn-primary">Calculate</button>
-        </form>
-        {result && (
-          <div className="calculator-result">
-            <h2>Future Balance</h2>
-            <p>${result}</p>
-          </div>
-        )}
-        {graphData && (
-          <div className="calculator-graph">
-            <Line data={graphData} />
+        </div>
+
+        <button onClick={handleSubmit}>Calculate</button>
+        {message && <p className="error-message">{message}</p>}
+
+        {/* Render the chart */}
+        {yearlyBalances.length > 0 && (
+          <div className="result">
+            <h3>Future Balance Over Time</h3>
+            <Bar data={chartData} options={{ maintainAspectRatio: false }} />
           </div>
         )}
       </div>
-    );
-  };
-  
-  export default InterestCalculator;
+    </div>
+  );
+};
+
+export default CompoundInterestCalculator;
