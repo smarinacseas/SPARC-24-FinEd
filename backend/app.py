@@ -1,11 +1,15 @@
-from flask import Flask, request, jsonify, flash
+from flask import Flask, request, jsonify, flash, render_template
 from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from user import db, User
 from flask_bcrypt import Bcrypt
 import os
+
+#for Debug
+#import logging
+#logging.basicConfig(level=logging.DEBUG)
 
 # Load env vars from .env file
 load_dotenv()
@@ -33,7 +37,11 @@ db.init_app(app)
 
 # Enable CORS for all routes
 #CORS(app)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True) 
+
+#CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "methods": ["GET", "POST", "OPTIONS"]}})
+#CORS(app, resources={r"/api/*": {"origins": "*"}}) 
+#CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}}) #for Debug
 
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
@@ -57,7 +65,7 @@ def register():
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     # Create a new user and add to database
-    new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password, module=-1)
+    new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password, module=1, module1=0, module2=0, module3=0, module4=0, module5=0, module6=0, module7=0)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User registered successfully'}), 201
@@ -121,8 +129,33 @@ def quiz():
         ]
     return jsonify(questions)
 
+
+#@app.after_request
+#def after_request(response):
+#    response.headers['X-CSRFToken'] = generate_csrf()
+#    return response
+
+#@app.route('/api/get-csrf-token', methods=['GET'])
+#def get_csrf_token():
+#    return jsonify({'csrfToken': generate_csrf()})
+
+
 #route to update progress
-@app.route('/api/update-progress', methods=['POST'])
+#@app.route('/api/update-progress', methods=['POST', 'OPTIONS'])
+    #if request.method == 'OPTIONS':
+        # Handle CORS preflight requests
+    #    response = jsonify({'status': 'success'})
+    #    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+    #    response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    #    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    #    return response
+    
+    # Your logic for handling the request
+
+    
+# Endpoint for logging in an existing user
+@app.route('/update-progress', methods=['POST'])
+@csrf.exempt
 def update_progress():
     data = request.json
     email = data.get('email')
@@ -131,19 +164,52 @@ def update_progress():
 
     user = User.query.filter_by(email=email).first()
     if user:
-        # Update the module progress in the JSON column
-        if user.module_progress is None:
-            user.module_progress = {}
-        
-        user.module_progress[module] = progress
-        db.session.commit()
-        return '', 204
-    else:
-        return '', 404
+        if module == "module1":
+           user.module1 = progress
+        elif module == "module2":
+            user.module2 = progress
+        elif module == "module3":
+            user.module3 = progress
+        elif module == "module4":
+            user.module4 = progress
+        elif module == "module5":
+            user.module5 = progress
+        elif module == "module6":
+            user.module6 = progress
+        elif module == "module7":
+            user.module7 = progress
 
-@app.route('/api/get-progress', methods=['GET'])
+        db.session.commit()
+        return jsonify({"message": "Progress updated successfully."}), 200
+    else:
+        return jsonify({"message": "User not found."}), 404
+
+
+#@app.route('/get-progress', methods=['POST'])
+@app.route('/get-progress', methods=['GET'])
+@csrf.exempt
 def get_progress():
-    return jsonify(module_progress)  # Return the stored progress
+    email = request.args.get('email')
+
+    if not email:
+        return jsonify({"message": "Email parameter is missing."}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if user:
+        module_progress = {
+            "module1": user.module1,
+            "module2": user.module2,
+            "module3": user.module3,
+            "module4": user.module4,
+            "module5": user.module5,
+            "module6": user.module6,
+            "module7": user.module7
+        }
+
+        print('Sending progress data:', module_progress)
+        return jsonify(module_progress), 200
+    else:
+        return jsonify({"message": "User not found."}), 404
 
 
 if __name__ == '__main__':

@@ -11,10 +11,8 @@ function Module6() {
   });
 
   const [goals, setGoals] = useState({
-    priority1: '',
-    priority2: '',
-    goal1: '',
-    goal2: '',
+    priority: '',
+    goal: '',
   });
 
   // Function to handle checkbox changes
@@ -52,7 +50,7 @@ function Module6() {
 
   // Check if any goal or priority is filled to allow checking the box
   const canCheckPriorities = () => {
-    return goals.priority1.trim() !== '' || goals.priority2.trim() !== '' || goals.goal1.trim() !== '' || goals.goal2.trim() !== '';
+    return goals.priority.trim() !== '' || goals.goal.trim() !== '';
   };
 
   return (

@@ -1,58 +1,138 @@
 .header {
-    width: 100%;
-    background-color: #4E6766;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    box-sizing: border-box;
-  }
-  
-  .brand {
-    color: #f4e9cd; /* Color for the "Easy Money" text */
-    font-weight: 600; /* Use 600 for semi-bold or adjust as needed */
-    font-size: 20px; /* Adjust size as needed */
-  }
-  
-  .tabs-container {
-    flex: 1;
-    display: flex;
-    justify-content: center; /* Center tabs horizontally */
-    align-items: flex-end; /* Align tabs with the bottom of the header */
-  }
-  
+  width: 100%;
+  background-color: #4E6766;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.brand {
+  color: #f4e9cd;
+  font-weight: 600;
+  font-size: 20px;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+.tabs-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 10px; /* Add padding to reduce the box size */
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem; /* Initial gap */
+  white-space: nowrap;
+  flex-grow: 1; /* Allow tabs to grow and shrink */
+  justify-content: center; /* Center tabs */
+}
+
+.tab {
+  padding: 10px 15px;
+  background-color: #f4e9cd;
+  border-radius: 20px 20px 0 0;
+  text-decoration: none;
+  color: #031926;
+  font-weight: medium;
+  font-size: 13px;
+  cursor: pointer;
+  position: relative;
+  bottom: -10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin: 0 5px;
+  flex-grow: 1; /* Allow individual tabs to grow and shrink */
+  max-width: 100px; /* Prevent tabs from getting too large */
+}
+
+.tab:hover {
+  background-color: #e4d9bb;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.custom-dropdown-toggle {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-line {
+  width: 25px;
+  height: 3px;
+  background-color: #f4e9cd;
+  transition: all 0.3s ease;
+}
+
+.dropdown-menu {
+  background-color: #f4e9cd; /* Matches the color of "Easy Money" */
+  color: #031926;
+  margin-top: 10px; /* Adjust margin to push the menu down */
+}
+
+.dropdown-item {
+  padding: 10px 20px;
+}
+
+.dropdown-item:first-child {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.dropdown-item.logout-item {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 20px;
+}
+
+/* Media query for tablets and smaller screens */
+@media (max-width: 1024px) {
   .tabs {
-    display: flex;
-    gap: 15px;
+    gap: 0.5rem; /* Decrease gap for short names */
   }
-  
+
   .tab {
-    padding: 10px 15px; /* Ensure enough padding for a good clickable area */
-    background-color: #f4e9cd;
-    border-radius: 20px 20px 0 0; /* Rounded top corners, flat bottom corners */
-    text-decoration: none;
-    color: #031926;
-    font-weight: medium;
-    font-size: 13px;
-    cursor: pointer;
-    position: relative;
-    bottom: -10px; /* Move the tabs down to align with the bottom of the header */
+    padding: 8px 10px; /* Increase padding for short names */
+    font-size: 12px;
   }
-  
-  .tab:hover {
-    background-color: #e4d9bb; /* Slightly different color for hover */
+}
+
+/* Media query for when the tabs should change to short names */
+@media (max-width: 768px) {
+  .tab {
+    padding: 6px 8px; /* Increase padding for even shorter names */
+    font-size: 11px;
   }
-  
+
+  .tabs-container {
+    padding: 0 5px; /* Reduce padding for smaller screens */
+  }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 500px) { /* Reduced max-width to 500px */
+  .tabs {
+    display: none;
+  }
+
   .settings button {
-    background-color: #f4e9cd;
-    border: none;
-    border-radius: 15px;
-    font-weight: 600;
-    font-size: 13px;
-    padding: 10px 30px 10px 30px;
-    cursor: pointer;
+    padding: 8px 12px;
   }
-  
-  .settings button:hover {
-    background-color: #c0c0c0;
-  }
+}

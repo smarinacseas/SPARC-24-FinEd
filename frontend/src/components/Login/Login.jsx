@@ -17,10 +17,10 @@ const Login = () => {
       const response = await api.post('/login', { email, password });
       console.log('Server response:', response);
       setMessage(response.data.message);
-
+  
       if (response.status === 200) {
-        // Assume a function to save the authenticated state
-        login();
+        // Assuming the response includes user email
+        login(email);
         navigate('/home'); // Redirect to home after successful login
       }
     } catch (error) {

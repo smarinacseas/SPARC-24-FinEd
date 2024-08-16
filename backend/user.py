@@ -12,7 +12,15 @@ class User(db.Model):
     age = db.Column(db.Integer)
     occupation = db.Column(db.String(50))
     #module = db.Column(db.Integer)
-    module_progress = db.Column(db.JSON) #change to JSON
+    module = db.Column(db.Integer) 
+    demographics_completed= db.Column(db.Boolean, default=False)
+    module1 = db.Column(db.Integer, default=0)
+    module2 = db.Column(db.Integer, default=0)
+    module3 = db.Column(db.Integer, default=0)
+    module4 = db.Column(db.Integer, default=0)
+    module5 = db.Column(db.Integer, default=0)
+    module6 = db.Column(db.Integer, default=0)
+    module7 = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f'<User {self.email}>'
