@@ -4,17 +4,6 @@ import axios from 'axios';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 
-/*
-async function fetchCsrfToken() {
-  try {
-    const response = await axios.get('http://localhost:5000/api/get-csrf-token');
-    return response.data.csrfToken; // Adjust based on your backend response
-  } catch (error) {
-    console.error('Error fetching CSRF token:', error);
-    return null;
-  }
-}
-*/
 
 function Module7() {
   const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
@@ -23,16 +12,12 @@ function Module7() {
     setupAutomatedPayments: false,
     organizeMoney: false,
   });
-  //const [csrfToken, setCsrfToken] = useState(null);
 
   useEffect(() => {
     const savedCheckedItems = localStorage.getItem('module7CheckedItems');
     if (savedCheckedItems) {
       setCheckedItems(JSON.parse(savedCheckedItems));
     }
-
-    // Fetch CSRF token on component mount
-    //fetchCsrfToken().then(token => setCsrfToken(token));
   }, []);
 
   const handleCheckboxChange = async (item) => {
@@ -55,25 +40,12 @@ function Module7() {
 
   const updateProgress = async (updatedCheckedItems, progress) => {
     if (userEmail) {
-      //const payload = { email: userEmail, module: 'module7', progress: progress };
-      //const accessToken = localStorage.getItem('accessToken'); 
       try {
-        //const response = await api.post('/update-progress', {payload});
-
         const response = await api.post('/update-progress', {
           email: userEmail,
           module: 'module7',
           progress: progress,
          })
-
-        /*}, {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`, // Use the actual token here
-            'X-CSRFToken': csrfToken // Include CSRF token if needed
-          }
-        });
-        */
-
         console.log('Progress update response:', response);
       } catch (error) {
         console.error('Error updating progress:', error);
@@ -82,10 +54,6 @@ function Module7() {
       console.error('User email or CSRF token is not available');
     }
   };
-
-  //if (!isAuthenticated) {
-  //  return <p>Please log in to access this module.</p>;
-  //}
 
   return (
     <div className="module-container">
