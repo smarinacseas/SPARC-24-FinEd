@@ -64,3 +64,33 @@ h2 {
   list-style: disc;
   margin-left: 20px;
 }
+
+.video-section {
+  background-color: #d9e2e3;
+  padding: 20px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #031926;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.video-container iframe {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 0;
+}
