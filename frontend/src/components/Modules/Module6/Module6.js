@@ -57,7 +57,7 @@ function Module6() {
     <div className="module-container">
       <div className="main-content">
         <h1>Module 6</h1>
-        <h2>Budgeting and Expense Tracking</h2>
+        <h2>Budgeting</h2>
         <div className="content-grid">
           <div className="section motivating-example">
             <div className="section-title">Importance of Budgeting</div>
@@ -161,4 +161,6 @@ function Module6() {
     </div>
   );
 }
+
 export default Module6;
+
