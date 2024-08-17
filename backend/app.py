@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+# from flask_migrate import Migrate
 from user import db, User
 from flask_bcrypt import Bcrypt
 import os
@@ -46,7 +46,7 @@ CORS(app, supports_credentials=True)
 #CORS(app, resources={r"/api/*": {"origins": "*"}}) 
 #CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}}) #for Debug
 
-migrate = Migrate(app, db)
+# migrate = Migrate(app, db)
 
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
