@@ -23,7 +23,7 @@ function Module4() {
     <div className="module-container">
       <div className="main-content">
         <h1>Module 4</h1>
-        <h2>Retirement and Investment Accounts</h2>
+        <h2>Retirement and Brokerage Accounts</h2>
           <div className="section video-section">
             <div className="section-title">Watch This Video: Average 401(k) Balance by Age (2024 Edition)</div>
             <div className="video-container">
@@ -32,7 +32,8 @@ function Module4() {
           </div>
         <div className="content-grid">
 
-          <div className="section motivating-example">
+          {/* Power of Compounding Interest Section */}
+          <div className="section motivating-example scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">The Power of Compounding Interest</div>
             <div className="section-content">
               <ul>
@@ -62,8 +63,9 @@ function Module4() {
             </div>
           </div>
 
-          <div className="section info">
-            <div className="section-title">Understanding Retirement and Investment Accounts</div>
+          {/* Retirement and Investment Accounts Section */}
+          <div className="section info scrollable-section" style={{ maxHeight: '300px' }}>
+            <div className="section-title">Retirement and Investment Accounts</div>
             <div className="section-content">
               <ul>
                 <li><b>Roth IRA:</b></li>
@@ -101,7 +103,8 @@ function Module4() {
             </div>
           </div>
 
-          <div className="section actions">
+          {/* Actions Section */}
+          <div className="section actions scrollable-section" style={{ maxHeight: '300px' }}>
             <div className="section-title">Actions</div>
             <div className="section-content">
               <form>

@@ -35,11 +35,35 @@ h2 {
     "left right-bottom";
 }
 
-.section {
-  background-color: #d9e2e3;
-  padding: 20px;
-  border-radius: 8px;
-  box-sizing: border-box;
+/* Scrollable section container */
+.scrollable-section {
+  position: relative;
+  overflow-y: auto;
+  padding-right: 10px; /* Adjust padding for scroll */
+  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.3); /* Scroll indicator (shadow) */
+}
+
+/* Adding gradient at the bottom as an indicator */
+.scrollable-section::after {
+  content: "";
+  position: sticky; /* Keeps the gradient in view at the bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+}
+
+.section.info,
+.section.actions {
+  max-height: 600px; /* Match the height with the motivating-example section */
+  overflow-y: auto;
+}
+
+.section.motivating-example {
+  max-height: 600px; /* Keep the same height as other sections */
+  overflow-y: auto;
 }
 
 .motivating-example {
