@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Bar } from 'react-chartjs';
+import { Bar } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
 import './interestCalculator.css';
 
 const CompoundInterestCalculator = () => {
@@ -11,6 +12,7 @@ const CompoundInterestCalculator = () => {
   const [compoundFrequency, setCompoundFrequency] = useState('Annually');
   const [yearlyBalances, setYearlyBalances] = useState([]);
   const [message, setMessage] = useState('');
+  const [calculatedBalance, setCalculatedBalance] = useState('');
 
   const calculateCompoundInterest = (principal, annualContribution, rate, years, frequency) => {
     const frequencyMap = {
@@ -51,20 +53,94 @@ const CompoundInterestCalculator = () => {
     );
 
     setYearlyBalances(balances);
+    setCalculatedBalance(balances[balances.length - 1]);
     setMessage('');
   };
 
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
   // Data for chart
   const chartData = {
-    labels: yearlyBalances.map((_, index) => `Year ${index + 1}`),
+    labels: yearlyBalances.map((_, index) => currentYear + index),
     datasets: [
       {
         label: 'Total Balance',
         data: yearlyBalances,
         backgroundColor: '#031926', // Bar color
-        hoverBackgroundColor: '#02161b' // Hover color
+        hoverBackgroundColor: '#02161b', // Hover color
+        barThickness: 30, // Adjust bar thickness for wider bars
       }
     ]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        beginAtZero: true,
+        grid: {
+          display: false,
+        },
+        ticks: {
+          stepSize: 1,
+          callback: function(value, index) {
+            return index % 5 === 0 ? this.getLabelForValue(value) : '';
+          },
+          color: '#8c8c8c',
+        },
+        barPercentage: 0.8,
+        categoryPercentage: 0.8,
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: '#f0f0f0',
+        },
+        ticks: {
+          callback: function(value) {
+            return '$' + value.toLocaleString();
+          },
+          color: '#8c8c8c',
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        callbacks: {
+          label: function(tooltipItem) {
+            return '$' + tooltipItem.raw.toLocaleString();
+          }
+        }
+      }
+    },
+    elements: {
+      bar: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#031926',
+        backgroundColor: function(context) {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+  
+          if (!chartArea) {
+            return null;
+          }
+          const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom);
+          gradient.addColorStop(0, 'rgba(0, 123, 255, 0.8)'); // Top color (darker)
+          gradient.addColorStop(1, 'rgba(0, 123, 255, 0.2)'); // Bottom color (lighter)
+          return gradient;
+        },
+        hoverBackgroundColor: '#031926', // Darker color on hover
+      }
+    }
   };
 
   return (
@@ -73,7 +149,7 @@ const CompoundInterestCalculator = () => {
       <div className="section-content">
         <div className="input-group">
           <label>
-            Initial Deposit:   
+            Starting Balance ($):   
             <input
               type="number"
               value={initialDeposit}
@@ -85,7 +161,7 @@ const CompoundInterestCalculator = () => {
 
         <div className="input-group">
           <label>
-            Annual Contribution:   
+            Annual Contribution ($):   
             <input
               type="number"
               value={annualContribution}
@@ -164,14 +240,16 @@ const CompoundInterestCalculator = () => {
           </div>
         </div>
 
-        <button onClick={handleSubmit}>Calculate</button>
+        <button className="btn" onClick={handleSubmit}>Calculate</button>
         {message && <p className="error-message">{message}</p>}
 
         {/* Render the chart */}
         {yearlyBalances.length > 0 && (
           <div className="result">
-            <h3>Future Balance Over Time</h3>
-            <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+            <h3>Future Balance Over Time: ${parseFloat(calculatedBalance).toLocaleString()}</h3>
+            <div className="chart-container">
+              <Bar data={chartData} options={chartOptions} />
+            </div>
           </div>
         )}
       </div>
