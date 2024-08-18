@@ -44,6 +44,8 @@ CORS(app, supports_credentials=True)
 
 # migrate = Migrate(app, db)
 
+# migrate = Migrate(app, db)
+
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
 @csrf.exempt
