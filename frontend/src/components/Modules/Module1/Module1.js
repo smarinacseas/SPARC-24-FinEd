@@ -60,6 +60,7 @@ function Module1() {
       const totalActions = Object.keys(updatedActions).length;
       const completedActions = Object.values(updatedActions).filter(Boolean).length;
       const progress = (completedActions / totalActions) * 100;
+      console.log("progress:",progress);
 
       updateProgress(updatedActions, progress); // Update progress
       localStorage.setItem('module1CheckedItems', JSON.stringify(updatedActions)); // Save to local storage

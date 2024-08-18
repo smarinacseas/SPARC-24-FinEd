@@ -14,6 +14,7 @@ class User(db.Model):
     #module = db.Column(db.Integer)
     module = db.Column(db.Integer) 
     demographics_completed= db.Column(db.Boolean, default=False)
+    demographic_data = db.Column(db.Text)
     module1 = db.Column(db.Integer, default=0)
     module2 = db.Column(db.Integer, default=0)
     module3 = db.Column(db.Integer, default=0)

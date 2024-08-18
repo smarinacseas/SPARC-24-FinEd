@@ -1,15 +1,70 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../AllModules.css'
 import './Module3.css';
+import api from '../../../api';
+import { useAuth } from '../../../context/AuthContext';
 
 function Module3() {
+  const { isAuthenticated, userEmail } = useAuth();
   const [checkingAmount, setCheckingAmount] = useState('');
   const [savingsAmount, setSavingsAmount] = useState('');
   const [checkingAPY, setCheckingAPY] = useState('');
   const [savingsAPY, setSavingsAPY] = useState('');
   const [checkingAPR, setCheckingAPR] = useState(null);
   const [savingsAPR, setSavingsAPR] = useState(null);
-  const [selectedActions, setSelectedActions] = useState([]);
+  //const [selectedActions, setSelectedActions] = useState([]);
+  const [selectedActions, setSelectedActions] = useState({
+    reviewCheckingAccount: false,
+    setupDirectDeposits: false,
+    openHighInterestSavings: false,
+    moveFundsToSavings: false
+  });
+
+  useEffect(() => {
+    const savedActions = localStorage.getItem('module3SelectedActions');
+    if (savedActions) {
+      setSelectedActions(JSON.parse(savedActions));
+    }
+  }, []);
+
+  const handleCheckboxChange = async (action) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return;
+    }
+
+    setSelectedActions((prevActions) => {
+      const updatedActions = {
+        ...prevActions,
+        [action]: !prevActions[action]
+      };
+
+      const totalActions = Object.keys(updatedActions).length;
+      const completedActions = Object.values(updatedActions).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedActions, progress);
+      localStorage.setItem('module3SelectedActions', JSON.stringify(updatedActions));
+      return updatedActions;
+    });
+  };
+
+  const updateProgress = async (updatedActions, progress) => {
+    if (userEmail) {
+      try {
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module3',
+          progress: progress,
+        });
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email or CSRF token is not available');
+    }
+  };
 
   const calculateCheckingAPR = () => {
     const checkingAPRValue = (parseFloat(checkingAPY) / 100) * parseFloat(checkingAmount);
@@ -21,13 +76,6 @@ function Module3() {
     setSavingsAPR(isNaN(savingsAPRValue) ? null : savingsAPRValue.toFixed(0));
   };
 
-  const handleCheckboxChange = (action) => {
-    setSelectedActions(prevActions => 
-      prevActions.includes(action)
-        ? prevActions.filter(a => a !== action)
-        : [...prevActions, action]
-    );
-  };
 
   return (
     <div className="module-container">
@@ -120,55 +168,61 @@ function Module3() {
           </div>
         </div>
 
-          <div className="section actions">
+        <div className="section actions">
             <div className="section-title">Actions</div>
             <div className="section-content">
-              <form>
-                <div>
+              <div>
+                <label style={{ opacity: selectedActions.reviewCheckingAccount ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action1"
-                    name="actions"
-                    value="Review your current checking account or open a new one"
-                    checked={selectedActions.includes("Review your current checking account or open a new one")}
-                    onChange={() => handleCheckboxChange("Review your current checking account or open a new one")}
+                    checked={selectedActions.reviewCheckingAccount}
+                    onChange={() => handleCheckboxChange('reviewCheckingAccount')}
                   />
-                  <label htmlFor="action1">Review your current checking account or open a new one</label>
-                </div>
-                <div>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Review your current checking account or open a new one</span>
+                </label>
+                <p className="action-description" style={{ opacity: selectedActions.reviewCheckingAccount ? 0.5 : 1 }}>
+                  Take time to assess your current checking account or explore options for a new one that better suits your needs.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: selectedActions.setupDirectDeposits ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action2"
-                    name="actions"
-                    value="Set up direct deposits to your checking account"
-                    checked={selectedActions.includes("Set up direct deposits to your checking account")}
-                    onChange={() => handleCheckboxChange("Set up direct deposits to your checking account")}
+                    checked={selectedActions.setupDirectDeposits}
+                    onChange={() => handleCheckboxChange('setupDirectDeposits')}
                   />
-                  <label htmlFor="action2">Set up direct deposits to your checking account</label>
-                </div>
-                <div>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Set up direct deposits to your checking account</span>
+                </label>
+                <p className="action-description" style={{ opacity: selectedActions.setupDirectDeposits ? 0.5 : 1 }}>
+                  Ensure your salary and other income are automatically deposited into your checking account for easier money management.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: selectedActions.openHighInterestSavings ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action3"
-                    name="actions"
-                    value="Open a high-interest savings account"
-                    checked={selectedActions.includes("Open a high-interest savings account")}
-                    onChange={() => handleCheckboxChange("Open a high-interest savings account")}
+                    checked={selectedActions.openHighInterestSavings}
+                    onChange={() => handleCheckboxChange('openHighInterestSavings')}
                   />
-                  <label htmlFor="action3">Open a high-interest savings account</label>
-                </div>
-                <div>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Open a high-interest savings account</span>
+                </label>
+                <p className="action-description" style={{ opacity: selectedActions.openHighInterestSavings ? 0.5 : 1 }}>
+                  Look for a savings account with high interest rates to maximize your savings over time.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: selectedActions.moveFundsToSavings ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    id="action4"
-                    name="actions"
-                    value="Leave ~2 months of living expenses in your checking account and move the rest to savings"
-                    checked={selectedActions.includes("Leave ~2 months of living expenses in your checking account and move the rest to savings")}
-                    onChange={() => handleCheckboxChange("Leave ~2 months of living expenses in your checking account and move the rest to savings")}
+                    checked={selectedActions.moveFundsToSavings}
+                    onChange={() => handleCheckboxChange('moveFundsToSavings')}
                   />
-                  <label htmlFor="action4">Leave ~2 months of living expenses in your checking account and move the rest to savings</label>
-                </div>
-              </form>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Leave ~2 months of living expenses in your checking account and move the rest to savings</span>
+                </label>
+                <p className="action-description" style={{ opacity: selectedActions.moveFundsToSavings ? 0.5 : 1 }}>
+                  Maintain a buffer of about two months' worth of expenses in your checking account for liquidity, and transfer the remaining funds to your savings account for better returns.
+                </p>
+              </div>
             </div>
           </div>
         </div>

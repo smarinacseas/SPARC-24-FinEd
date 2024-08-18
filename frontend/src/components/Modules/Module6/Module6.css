@@ -64,3 +64,72 @@ h2 {
   list-style: disc;
   margin-left: 20px;
 }
+
+.section-description {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  margin-top: 10px;
+}
+
+.header-item {
+  padding: 5px;
+}
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-row input,
+.grid-row select {
+  width: 100%;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.add-row-btn,
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.remove-row-btn {
+  background-color: #c96973; 
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background-color: #64ac75;
+}
+
+.chart {
+  display: flex;
+}

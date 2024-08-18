@@ -4,6 +4,7 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Home from './components/Home/Home';
 import Quiz from './components/Quiz/Quiz';
+import Demographics from './components/Demographics/Demographics';
 import Header from './components/Header/Header';
 import Module1 from './components/Modules/Module1/Module1';
 import Module2 from './components/Modules/Module2/Module2';
@@ -36,6 +37,7 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+                  <Route path="/info" element={<PrivateRoute><Demographics /></PrivateRoute>} />
                   <Route path="/quiz" element={<PrivateRoute><Quiz /></PrivateRoute>} />
                   <Route path="/module1" element={<PrivateRoute><Module1 /></PrivateRoute>} />
                   <Route path="/module2" element={<PrivateRoute><Module2 /></PrivateRoute>} />

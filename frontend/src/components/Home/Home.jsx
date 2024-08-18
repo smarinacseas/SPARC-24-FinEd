@@ -21,25 +21,24 @@ function Home() {
           const response = await api.get('/get-progress', {
             params: { email: userEmail }
           });
-          setModuleProgress(response.data);
-
+          setModuleProgress(response.data);  
+          
           // Determine which modules are unlocked
           const updatedUnlockStatus = {};
-          let previousModule = 'module1';
+          let previousModule = 'module1'; //remove this
           let isUnlocked = true;
 
-          for (const module of Object.keys(response.data)) {
+          //remove the for loop
+          Object.keys(response.data).forEach((module) => {
             updatedUnlockStatus[module] = isUnlocked;
-
-            if (response.data[previousModule] === 100) {
+  
+            if (response.data[module] === 100) {
               isUnlocked = true;
             } else {
               isUnlocked = false;
             }
-
-            previousModule = module;
-          }
-
+          });
+  
           setUnlockStatus(updatedUnlockStatus);
         } catch (error) {
           console.error('Error fetching progress:', error);
@@ -50,6 +49,8 @@ function Home() {
     fetchProgress();
   }, [userEmail, isAuthenticated]);
 
+  
+
   return (
     <div className="home-container">
       <h1 className="home-title">Roadmap</h1>
@@ -58,8 +59,8 @@ function Home() {
       {Object.keys(moduleProgress).map((module, index) => {
         const moduleNumber = module.replace('module', '');
 
-        console.log("module #: ", moduleNumber); // Debugging line
-        console.log("progress: ", moduleProgress[module]); // Debugging line
+        //console.log("module #: ", moduleNumber); // Debugging line
+        //console.log("progress: ", moduleProgress[module]); // Debugging line
         
         return (
           <div key={index} className="module">

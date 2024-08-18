@@ -20,9 +20,15 @@ const Login = () => {
   
       if (response.status === 200) {
         // Assuming the response includes user email
+        localStorage.setItem('user_id', response.data.user_id);
         login(email);
-        navigate('/home'); // Redirect to home after successful login
-      }
+        if (response.data.demographicsCompleted) {
+          navigate('/home'); // Redirect to home after successful login
+        } else {
+          navigate('/info'); // Redirect to demographic questions page
+        }
+    }
+
     } catch (error) {
       console.error('Error during login:', error);
       if (error.response && error.response.data) {

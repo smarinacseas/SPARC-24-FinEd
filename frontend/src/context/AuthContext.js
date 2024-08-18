@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
@@ -18,13 +19,15 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       setUserEmail(null);
     }
+
     
-    console.log('Auth status after useEffect:', isAuthenticated);
-    console.log('User email after useEffect:', userEmail);
+    
+    //console.log('Auth status after useEffect:', isAuthenticated);
+    //console.log('User email after useEffect:', userEmail);
   }, [isAuthenticated, userEmail]);
 
   const login = (email) => {
-    console.log('Login function called with email:', email);
+    //console.log('Login function called with email:', email);
     setIsAuthenticated(true);
     setUserEmail(email);
     window.localStorage.setItem('isAuthenticated', 'true');
@@ -32,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log('Logout function called');
+    //console.log('Logout function called');
     setIsAuthenticated(false);
     setUserEmail(null);
     window.localStorage.removeItem('isAuthenticated');
