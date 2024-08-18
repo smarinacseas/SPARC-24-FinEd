@@ -39,10 +39,6 @@ db.init_app(app)
 #CORS(app)
 CORS(app, supports_credentials=True) 
 
-#CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000", "methods": ["GET", "POST", "OPTIONS"]}})
-#CORS(app, resources={r"/api/*": {"origins": "*"}}) 
-#CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://localhost:3000"}}) #for Debug
-
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
 @csrf.exempt
@@ -128,30 +124,6 @@ def quiz():
             }
         ]
     return jsonify(questions)
-
-
-#@app.after_request
-#def after_request(response):
-#    response.headers['X-CSRFToken'] = generate_csrf()
-#    return response
-
-#@app.route('/api/get-csrf-token', methods=['GET'])
-#def get_csrf_token():
-#    return jsonify({'csrfToken': generate_csrf()})
-
-
-#route to update progress
-#@app.route('/api/update-progress', methods=['POST', 'OPTIONS'])
-    #if request.method == 'OPTIONS':
-        # Handle CORS preflight requests
-    #    response = jsonify({'status': 'success'})
-    #    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
-    #    response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
-    #    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    #    return response
-    
-    # Your logic for handling the request
-
     
 # Endpoint for logging in an existing user
 @app.route('/update-progress', methods=['POST'])

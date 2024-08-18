@@ -3,10 +3,10 @@ import './Module1.css';
 import PieChart from './Pie_chart.png';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
-import Fireworks from '../fireworks.gif';
 
 function Module1() {
   const { isAuthenticated, userEmail } = useAuth();
+  const [hoveredSection, setHoveredSection] = useState(null);
 
   // State Management:
   const [selectedActions, setSelectedActions] = useState({
@@ -15,7 +15,30 @@ function Module1() {
     setupAutopay: false,
   });
 
-  const [allChecked, setAllChecked] = useState(false);
+  const chartSections = [
+    { percentage: 35, label: "Payment History", description: "How reliable you are. Late payments hurt you" },
+    { percentage: 30, label: "Amounts Owed", description: "“How much you owe and how much credit you have available, aka your credit utilization rate." },
+    { percentage: 15, label: "Length of History", description: "How long you've had credit." },
+    { percentage: 10, label: "New Credit", description: "“Older accounts are better, because they show you’re reliable. Avoid opening too many new accounts at once." },
+    { percentage: 10, label: "Types of Credit", description: "For example, credit cards, student loans. Varied is better." }
+  ];
+
+  const getRotationDegrees = (index) => {
+    let totalRotation = 0;
+    for (let i = 0; i < index; i++) {
+      totalRotation += chartSections[i].percentage * 3.6;
+    }
+    return totalRotation;
+  };
+
+
+  const MyComponent = () => {
+    return (
+      <div className="image-container">
+        <img src={PieChart} alt="Descriptive Alt Text" className="interactive-image" />
+      </div>
+    );
+  };
 
   // Fetch saved checkbox states from localStorage on component mount
   useEffect(() => {
@@ -24,12 +47,6 @@ function Module1() {
       setSelectedActions(JSON.parse(savedActions));
     }
   }, []);
-
-  // Update allChecked state when selectedActions changes
-  useEffect(() => {
-    const allChecked = Object.values(selectedActions).every(Boolean);
-    setAllChecked(allChecked);
-  }, [selectedActions]);
 
   // Handle checkbox changes
   const handleCheckboxChange = async (action) => {
@@ -81,9 +98,26 @@ function Module1() {
               <div className="pie-chart-container">
                 <img src={PieChart} alt="Pie Chart" className="interactive-image" />
                 <div className="pie-chart">
+                  {chartSections.map((section, index) => (
+                    <div
+                      key={index}
+                      className="pie-piece"
+                      style={{
+                        '--rotate-start': `${getRotationDegrees(index)}deg`,
+                        '--rotate-end': `${getRotationDegrees(index) + section.percentage * 3.6}deg`
+                      }}
+                      onMouseEnter={() => setHoveredSection(section)}
+                      onMouseLeave={() => setHoveredSection(null)}
+                    ></div>
+                  ))}
                   {/* Pie chart code here */}
                 </div>
               </div>
+              {hoveredSection && (
+                <div className="hover-info">
+                  <strong>{hoveredSection.label}</strong>: {hoveredSection.description}
+                </div>
+              )}
             </div>
           </div>
           <div className="section info">
@@ -161,12 +195,6 @@ function Module1() {
             </div>
           </div>
         </div>
-        {/* Fireworks Display */}
-        {allChecked && (
-          <div className="fireworks-container">
-            <img src={Fireworks} alt="Fireworks" className="fireworks-gif" />
-          </div>
-        )}
       </div>
     </div>
   );
