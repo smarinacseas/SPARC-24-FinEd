@@ -3,8 +3,12 @@ import '../AllModules.css';
 import './Module2.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
+import { useNavigate } from 'react-router-dom';
+
 
 function Module2() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
   const [checkedItems, setCheckedItems] = useState({
     spendingHabits: false,
@@ -103,11 +107,11 @@ function Module2() {
   };
 
     // State hooks for the debt calculator
-    const [balanceOwed, setBalanceOwed] = useState('');
-    const [interestRate, setInterestRate] = useState('');
-    const [monthsToPayOff, setMonthsToPayOff] = useState('');
+    const [balanceOwed, setBalanceOwed] = useState(80000);
+    const [interestRate, setInterestRate] = useState(10);
+    const [monthsToPayOff, setMonthsToPayOff] = useState(20);
     // Desired months to pay off
-    const [desiredMonthsToPayOff, setDesireMonthsToPayOff] = useState('');
+    const [desiredMonthsToPayOff, setDesireMonthsToPayOff] = useState(10);
   
     const [monthlyPayment, setMonthlyPayment] = useState(null);
     const [totalPayment, setTotalPayment] = useState(null);
@@ -158,10 +162,10 @@ function Module2() {
     };
   
     const handleReset = () => {
-      setBalanceOwed('');
-      setInterestRate('');
-      setMonthsToPayOff('');
-      setDesireMonthsToPayOff('');
+      setBalanceOwed(80000);
+      setInterestRate(10);
+      setMonthsToPayOff(20);
+      setDesireMonthsToPayOff(10);
       setMonthlyPayment(null);
       setTotalPayment(null);
     };
@@ -298,6 +302,11 @@ function Module2() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.createBudget ? 0.5 : 1 }}>
                   Plan your monthly income and expenses to ensure you stay on track financially.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
             </div>

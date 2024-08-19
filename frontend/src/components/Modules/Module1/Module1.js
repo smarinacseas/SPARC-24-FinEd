@@ -7,8 +7,11 @@ import { useAuth } from '../../../context/AuthContext';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import PieChartWithDescription from './PieChart';
+import { useNavigate } from 'react-router-dom';
+
 
 function Module1() {
+  const navigate = useNavigate(); // Initialize the navigate function
   const { isAuthenticated, userEmail } = useAuth();
   const [hoveredSection, setHoveredSection] = useState(null);
   // AI Added
@@ -224,6 +227,12 @@ function Module1() {
                   Automate your credit card payments to ensure they are paid in full each month.
                 </p>
               </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
+              </div>
+
             </div>
           </div>
          {/* AI Section */}

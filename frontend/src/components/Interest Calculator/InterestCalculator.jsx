@@ -4,22 +4,22 @@ import Chart from 'chart.js/auto';
 import './interestCalculator.css';
 
 const CompoundInterestCalculator = () => {
-  const [initialDeposit, setInitialDeposit] = useState('');
-  const [annualContribution, setAnnualContribution] = useState('');
-  const [currentAge, setCurrentAge] = useState('');
-  const [retirementAge, setRetirementAge] = useState('');
-  const [rateOfReturn, setRateOfReturn] = useState('');
+  const [initialDeposit, setInitialDeposit] = useState(10000);
+  const [annualContribution, setAnnualContribution] = useState(2000);
+  const [currentAge, setCurrentAge] = useState(24);
+  const [retirementAge, setRetirementAge] = useState(65);
+  const [rateOfReturn, setRateOfReturn] = useState(8);
   const [compoundFrequency, setCompoundFrequency] = useState('Annually');
   const [yearlyBalances, setYearlyBalances] = useState([]);
   const [message, setMessage] = useState('');
   const [calculatedBalance, setCalculatedBalance] = useState('');
 
   const handleReset = () => {
-    setInitialDeposit('');
-    setAnnualContribution('');
-    setCurrentAge('');
-    setRetirementAge('');
-    setRateOfReturn('');
+    setInitialDeposit(10000);
+    setAnnualContribution(2000);
+    setCurrentAge(24);
+    setRetirementAge(65);
+    setRateOfReturn(8);
     setCompoundFrequency('Annually'); // Set to default value
     setYearlyBalances([]);
     setMessage('');

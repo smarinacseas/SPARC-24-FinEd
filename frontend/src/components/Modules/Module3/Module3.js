@@ -3,8 +3,12 @@ import '../AllModules.css'
 import './Module3.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 function Module3() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth();
   const [checkingAmount, setCheckingAmount] = useState(1000)
   const [savingsAmount, setSavingsAmount] = useState(5000);
@@ -186,8 +190,8 @@ function Module3() {
       </div>
       <button className="apy_button" onClick={calculateSavingsAPR}>Calculate Savings APY</button>
       <div>
-        <h5>Checking Account APY: {checkingAPR !== null ? `$${checkingAPR}` : ''}</h5>
-        <h5>Savings Account APY: {savingsAPR !== null ? `$${savingsAPR}` : ''}</h5>
+        <h5>Checking Account Accrued Interest: {checkingAPR !== null ? `$${checkingAPR}` : ''}</h5>
+        <h5>Savings Account Accrued Interest: {savingsAPR !== null ? `$${savingsAPR}` : ''}</h5>
       </div>
 
       {/* Start Over Button */}
@@ -295,6 +299,11 @@ function Module3() {
                 <p className="action-description" style={{ opacity: selectedActions.moveFundsToSavings ? 0.5 : 1 }}>
                   Maintain a buffer of about two months' worth of expenses in your checking account for liquidity, and transfer the remaining funds to your savings account for better returns.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
           </div>

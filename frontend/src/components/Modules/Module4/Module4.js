@@ -4,9 +4,13 @@ import './Module4.css';
 import api from '../../../api';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
 import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Module4() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth();
   const [checkedItems, setCheckedItems] = useState({
     currentAccounts: false,
@@ -257,6 +261,11 @@ function Module4() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.assets ? 0.5 : 1 }}>
                   Ensure it aligns with your retirement goals and risk tolerance.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
           </div>

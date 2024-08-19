@@ -5,11 +5,15 @@ import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useNavigate } from 'react-router-dom';
+
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Module6() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth();
   const [checkedItems, setCheckedItems] = useState({
     spendingHabits: false,
@@ -23,7 +27,10 @@ function Module6() {
   });
 
   const [rows, setRows] = useState([
-    { description: '', date: '', category: 'Rent/mortgage', amount: '' }
+    { description: 'Costco', date: '2024-08-19', category: 'Groceries', amount: 230 },
+    { description: 'Mortgage', date: '2024-08-15', category: 'Rent/mortgage', amount: 2535 },
+    { description: 'Walmart', date: '2024-08-17', category: 'Groceries', amount: 100 },
+    { description: 'Movie Night', date: '2024-08-16', category: 'Entertainment', amount: 55 },
   ]);
   
   const [chartData, setChartData] = useState({
@@ -352,6 +359,11 @@ function Module6() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.createBudget ? 0.5 : 1 }}>
                   Develop a detailed budget based on your income and expenses to guide your financial decisions.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
           </div>

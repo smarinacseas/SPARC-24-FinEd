@@ -3,8 +3,12 @@ import '../AllModules.css';
 import './Module5.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
  
 function Module5() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth();
 
   const [checkedItems, setCheckedItems] = useState({
@@ -285,6 +289,11 @@ function Module5() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.homeOwnership ? 0.5 : 1 }}>
                 Use an online calculator to compare the benefits of contributing to a Roth IRA versus a traditional IRA, based on your current tax bracket and expected retirement tax bracket.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
           </div>

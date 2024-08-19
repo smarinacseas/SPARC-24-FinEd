@@ -4,9 +4,13 @@ import './Module7.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 import autopayImage from './autopay.jpg';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Module7() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
   
   const [checkedItems, setCheckedItems] = useState({
@@ -129,6 +133,11 @@ function Module7() {
                 <p style={{ marginTop: '5px', opacity: checkedItems.setupAutomatedPayments ? 0.5 : 1 }}>
                   Ensure timely payments on your debts by automating your monthly payments to avoid interest and penalties.
                 </p>
+              </div>
+              <div style={{ marginTop: '20px' }}>
+                <button className="go-to-roadmap-button" onClick={() => navigate('/home')}>
+                  Go to Roadmap
+                </button>
               </div>
             </div>
           </div>
