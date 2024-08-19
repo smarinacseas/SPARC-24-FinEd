@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Module4.css';
+import api from '../../../api';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
+import { useAuth } from '../../../context/AuthContext';
+
 
 function Module4() {
   const { isAuthenticated, userEmail } = useAuth();
@@ -11,6 +14,53 @@ function Module4() {
     brokerage: false,
     assets: false
   });
+  // AI added
+  const [checkAI, setAI] = useState(false);
+  const [aiAdvice, setAiAdvice] = useState('');
+  const [typeAdvice, setTypeAdvice] = useState('');
+
+  useEffect(() => {
+    // Initialize component
+    const initialize = async () => {
+      try {
+        // Call handleGetAdvice if typeAdvice is set
+        if (typeAdvice && aiAdvice === '') {
+          handleGetAdvice();
+        }
+      } catch (error) {
+        console.error('Error initializing component:', error);
+      }
+    };
+    // Call initialize function
+    initialize();
+  }, [typeAdvice, aiAdvice]); 
+
+  const handleGetAdvice = async (e) => {
+    try {
+      setTypeAdvice("mod4_advice"); // Set the advice type based on your logic
+      const userId = localStorage.getItem('user_id'); // Retrieve user ID from local storage
+      console.log("Fetching data");
+      const response = await api.get('/getAdvice', {
+        params: {
+          user_id: userId,
+          advice: typeAdvice
+        }
+      });
+      if (response.status === 200) {
+        setAiAdvice(response.data.advice);
+      }
+      setAI(true); // Update the state to indicate advice has been fetched
+    } catch (error) {
+      console.error('Error getting AI advice:', error); // Log any errors
+    }
+  };
+
+  useEffect(() => {
+    const savedCheckedItems = localStorage.getItem('module4CheckedItems');
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+    }
+  }, []);
 
   const handleCheckboxChange = async (item) => {
     if (!isAuthenticated) {
