@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Module4.css';
+import api from '../../../api';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
 
 function Module4() {
@@ -11,6 +12,46 @@ function Module4() {
     brokerage: false,
     assets: false
   });
+  const [checkAI, setAI] = useState(false);
+  const [aiAdvice, setAiAdvice] = useState('');
+  const [typeAdvice, setTypeAdvice] = useState('');
+
+  useEffect(() => {
+    // Initialize component
+    const initialize = async () => {
+      try {
+        // Call handleGetAdvice if typeAdvice is set
+        if (typeAdvice && aiAdvice === '') {
+          handleGetAdvice();
+        }
+      } catch (error) {
+        console.error('Error initializing component:', error);
+      }
+    };
+    // Call initialize function
+    initialize();
+  }, [typeAdvice, aiAdvice]); 
+
+  const handleGetAdvice = async (e) => {
+    try {
+      setTypeAdvice("mod4_advice"); // Set the advice type based on your logic
+      const userId = localStorage.getItem('user_id'); // Retrieve user ID from local storage
+      console.log("Fetching data");
+      const response = await api.get('/getAdvice', {
+        params: {
+          user_id: userId,
+          advice: typeAdvice
+        }
+      });
+      if (response.status === 200) {
+        setAiAdvice(response.data.advice);
+      }
+      setAI(true); // Update the state to indicate advice has been fetched
+    } catch (error) {
+      console.error('Error getting AI advice:', error); // Log any errors
+    }
+  };
+
 
   const handleCheckboxChange = async (item) => {
     setCheckedItems((prev) => {
@@ -193,6 +234,23 @@ function Module4() {
           </div>
     <InterestCalculator />
   </div>
+
+  {/* AI Section */}
+  <div className="section ai-advice">
+          <div className="section-title">AI Insights</div>
+          <div className="section-content">
+            <div className="ai-box">
+            <p><strong>What is the best way to allocate my assets between retirement and investment accounts?</strong></p>
+              <button onClick={handleGetAdvice}>Consult AI for Personalized Insights</button>
+              {checkAI && (
+              <div className="result">
+                <p><strong>AI Advice:</strong> {aiAdvice} </p>
+              </div>
+            )}
+            </div>
+          </div>
+        </div>
+            {/* end AI section */}
 </div>);
 }
 

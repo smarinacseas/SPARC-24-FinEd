@@ -6,6 +6,8 @@ import './Demographics.css'; // Import the CSS file for styling
 const Demographics = () => {
   const [answers, setAnswers] = useState({});
   const navigate = useNavigate();
+  // Adding loading
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setAnswers({ ...answers, [e.target.name]: e.target.value });
@@ -13,6 +15,7 @@ const Demographics = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const userId = localStorage.getItem('user_id'); // Assume user_id is stored after login
       const response = await api.post('/info', { user_id: userId, answers });
@@ -103,6 +106,7 @@ const Demographics = () => {
           </div>
           <button type="submit">Submit</button>
         </form>
+        {loading && <div className='loading_message'>Loading...</div>} {/* Conditionally render loading message */}
       </div>
     </div>
   );
