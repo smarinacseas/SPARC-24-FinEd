@@ -19,9 +19,6 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       setUserEmail(null);
     }
-
-    
-    
     //console.log('Auth status after useEffect:', isAuthenticated);
     //console.log('User email after useEffect:', userEmail);
   }, [isAuthenticated, userEmail]);
