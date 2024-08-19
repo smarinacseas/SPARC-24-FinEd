@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import './Module4.css';
-import api from '../../../api';
-import { useAuth } from '../../../context/AuthContext';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
 
 function Module4() {
@@ -13,13 +11,6 @@ function Module4() {
     brokerage: false,
     assets: false
   });
-
-  useEffect(() => {
-    const savedCheckedItems = localStorage.getItem('module4CheckedItems');
-    if (savedCheckedItems) {
-      setCheckedItems(JSON.parse(savedCheckedItems));
-    }
-  }, []);
 
   const handleCheckboxChange = async (item) => {
     if (!isAuthenticated) {
@@ -219,6 +210,23 @@ function Module4() {
           </div>
     <InterestCalculator />
   </div>
+
+  {/* AI Section */}
+  <div className="section ai-advice">
+          <div className="section-title">AI Insights</div>
+          <div className="section-content">
+            <div className="ai-box">
+            <p><strong>What is the best way to allocate my assets between retirement and investment accounts?</strong></p>
+              <button onClick={handleGetAdvice}>Consult AI for Personalized Insights</button>
+              {checkAI && (
+              <div className="result">
+                <p><strong>AI Advice:</strong> {aiAdvice} </p>
+              </div>
+            )}
+            </div>
+          </div>
+        </div>
+            {/* end AI section */}
 </div>);
 }
 
