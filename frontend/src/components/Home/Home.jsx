@@ -54,7 +54,6 @@ function Home() {
   return (
     <div className="home-container">
       <h1 className="home-title">Roadmap</h1>
-      <button className="home-button" onClick={() => goToModule('/quiz')}>Go to Quiz</button>
 
       {Object.keys(moduleProgress).map((module, index) => {
         const moduleNumber = module.replace('module', '');
