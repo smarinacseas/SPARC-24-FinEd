@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Module4.css';
-import api from '../../../api';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
 
 function Module4() {
-
+  const { isAuthenticated, userEmail } = useAuth();
   const [checkedItems, setCheckedItems] = useState({
     currentAccounts: false,
     roth: false,
@@ -12,52 +11,40 @@ function Module4() {
     brokerage: false,
     assets: false
   });
-  const [checkAI, setAI] = useState(false);
-  const [aiAdvice, setAiAdvice] = useState('');
-  const [typeAdvice, setTypeAdvice] = useState('');
-
-  useEffect(() => {
-    // Initialize component
-    const initialize = async () => {
-      try {
-        // Call handleGetAdvice if typeAdvice is set
-        if (typeAdvice && aiAdvice === '') {
-          handleGetAdvice();
-        }
-      } catch (error) {
-        console.error('Error initializing component:', error);
-      }
-    };
-    // Call initialize function
-    initialize();
-  }, [typeAdvice, aiAdvice]); 
-
-  const handleGetAdvice = async (e) => {
-    try {
-      setTypeAdvice("mod4_advice"); // Set the advice type based on your logic
-      const userId = localStorage.getItem('user_id'); // Retrieve user ID from local storage
-      console.log("Fetching data");
-      const response = await api.get('/getAdvice', {
-        params: {
-          user_id: userId,
-          advice: typeAdvice
-        }
-      });
-      if (response.status === 200) {
-        setAiAdvice(response.data.advice);
-      }
-      setAI(true); // Update the state to indicate advice has been fetched
-    } catch (error) {
-      console.error('Error getting AI advice:', error); // Log any errors
-    }
-  };
-
 
   const handleCheckboxChange = async (item) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return; // Prevent further actions if not authenticated
+    }
+
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
+      const totalActions = Object.keys(updatedCheckedItems).length;
+      const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedCheckedItems, progress); // Update progress and state
+      localStorage.setItem('module4CheckedItems', JSON.stringify(updatedCheckedItems)); // Save to local storage
       return updatedCheckedItems;
     });
+  };
+
+  const updateProgress = async (updatedActions, progress) => {
+    if (userEmail) {
+      try {
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module4',
+          progress: progress,
+        });
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email or CSRF token is not available');
+    }
   };
 
   return (
@@ -145,10 +132,10 @@ function Module4() {
           </div>
 
           {/* Actions Section */}
-          <div className="section actions scrollable-section" style={{ maxHeight: '300px' }}>
+          <div className="section actions scrollable-section" style={{ maxHeight: '280px' }}>
             <div className="section-title">Actions</div>
             <div className="section-content">
-              <form>
+
               <div>
                 <label style={{ opacity: checkedItems.currentAccounts ? 0.5 : 1 }}>
                   <input
@@ -156,13 +143,11 @@ function Module4() {
                     checked={checkedItems.currentAccounts}
                     onChange={() => handleCheckboxChange('currentAccounts')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Review your current retirement account contributions.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.currentAccounts ? 0.5 : 1 }}>
-                    Make sure you are contributing enough to get the full employer match in your 401(k) if applicable.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Review your current retirement account contributions.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.currentAccounts ? 0.5 : 1 }}>
+                  Make sure you are contributing enough to get the full employer match in your 401(k) if applicable.
+                </p>
               </div>
 
               <div>
@@ -172,13 +157,11 @@ function Module4() {
                     checked={checkedItems.roth}
                     onChange={() => handleCheckboxChange('roth')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Open or contribute to a Roth IRA if eligible.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.roth ? 0.5 : 1 }}>
-                    This is a great way to build tax-free income in retirement.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Open or contribute to a Roth IRA if eligible.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.roth ? 0.5 : 1 }}>
+                  This is a great way to build tax-free income in retirement.
+                </p>
               </div>
 
               <div>
@@ -188,13 +171,11 @@ function Module4() {
                     checked={checkedItems.hsa}
                     onChange={() => handleCheckboxChange('hsa')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Increase your HSA contributions to maximize tax benefits.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.hsa ? 0.5 : 1 }}>
-                    Especially if you have a high-deductible health plan, this can be a smart move.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Increase your HSA contributions to maximize tax benefits.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.hsa ? 0.5 : 1 }}>
+                  Especially if you have a high-deductible health plan, this can be a smart move.
+                </p>
               </div>
 
               <div>
@@ -204,13 +185,11 @@ function Module4() {
                     checked={checkedItems.brokerage}
                     onChange={() => handleCheckboxChange('brokerage')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Consider opening a self-managed brokerage account.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.brokerage ? 0.5 : 1 }}>
-                    This provides additional investment flexibility and potential long-term gains.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Consider opening a self-managed brokerage account.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.brokerage ? 0.5 : 1 }}>
+                  This provides additional investment flexibility and potential long-term gains.
+                </p>
               </div>
 
               <div>
@@ -220,15 +199,12 @@ function Module4() {
                     checked={checkedItems.assets}
                     onChange={() => handleCheckboxChange('assets')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Check your 401(k) or IRA asset allocation.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.assets ? 0.5 : 1 }}>
-                    Ensure it aligns with your retirement goals and risk tolerance.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Check your 401(k) or IRA asset allocation.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.assets ? 0.5 : 1 }}>
+                  Ensure it aligns with your retirement goals and risk tolerance.
+                </p>
               </div>
-              </form>
             </div>
           </div>
           </div>
