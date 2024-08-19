@@ -29,11 +29,10 @@ h2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto;
   grid-template-areas:
-    "motivating-example info"
-    "motivating-example repayment"
-    "motivating-example actions"
+    "left right"
+    "left right-bottom"
 }
 
 .section {
@@ -44,35 +43,53 @@ h2 {
 }
 
 .motivating-example {
-  grid-area: motivating-example;
+  grid-area: left;
 }
 
 .info {
-  grid-area: info;
-}
-
-.repayment {
-  grid-area: repayment;
-  background-color: #f0f4f4;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  grid-area: right;
 }
 
 .actions {
-  grid-area: actions;
+  grid-area: right-bottom;
 }
 
-.debt-outcome {
-  grid-area: right;
-  background-color: #f0f4f4;
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+
+.section.repayment {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  flex-direction: column; /* Stack items vertically */
+  background-color: #d9e2e3;
+  box-sizing: border-box;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;             /* Ensure it takes full width of the parent */
+  max-width: 1200px;       /* Set a max width if needed */
+  margin-top: 20px; 
+}
+
+.section.debt-outcome {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  flex-direction: column; /* Stack items vertically */
+  background-color: #d9e2e3;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;             /* Ensure it takes full width of the parent */
+  max-width: 1200px;       /* Set a max width if needed */
 }
 
 .input-group {
   margin-bottom: 15px;
+  width: 100%;  
 }
 
 .input-group label {
@@ -103,6 +120,8 @@ button:hover {
 
 .result {
   margin-top: 20px;
+  width: 100%;             /* Ensure result section takes full width */
+  text-align: center;      /* Center text */
 }
 
 .result h4 {
@@ -112,10 +131,4 @@ button:hover {
 .result p {
   font-size: 18px;
   font-weight: bold;
-}
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
 }

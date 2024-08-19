@@ -141,8 +141,78 @@ function Module6() {
       <div className="main-content">
         <h1>Module 6</h1>
         <h2>Budgeting</h2>
+        <div className="section budgeting-grid">
+            <div className="section-title">Find out your spendings</div>
+            <p className="section-description">
+              To start, let's find out your spending habits with this form. Look at receipts and bank transactions, and record all your spending for the last 7 days.
+            </p>
+            <div className="grid-header">
+              <div className="header-item">Description</div>
+              <div className="header-item">Date</div>
+              <div className="header-item">Category</div>
+              <div className="header-item">Amount</div>
+            </div>           
+            <div className="grid-container">
+              {rows.map((row, index) => (
+                <div key={index} className="grid-row">
+                  <input
+                    type="text"
+                    name="description"
+                    placeholder="Description"
+                    value={row.description}
+                    onChange={(e) => handleRowChange(index, e)}
+                  />
+                  <input
+                    type="date"
+                    name="date"
+                    value={row.date}
+                    onChange={(e) => handleRowChange(index, e)}
+                  />
+                  <select
+                    name="category"
+                    value={row.category}
+                    onChange={(e) => handleRowChange(index, e)}
+                  >
+                    <option value="Rent/mortgage">Rent/mortgage</option>
+                    <option value="Utilites">Utilites</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Loan Payments">Loan Payments</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Dining out">Dining out</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Other">Other</option>
+                    
+                  </select>
+                  <input
+                    type="number"
+                    name="amount"
+                    placeholder="Amount"
+                    value={row.amount}
+                    onChange={(e) => handleRowChange(index, e)}
+                  />
+                </div>
+              ))}
+            </div>
+            <button onClick={handleAddRow} className="add-row-btn">
+              <span>+</span> Add Row
+            </button><button onClick={handleRemoveRow} className="remove-row-btn">
+              <span>−</span> Remove Row
+            </button>
+            <button onClick={handleSubmit} className="submit-btn">Submit</button>
+          </div>
+          <div className="section chart">
+            <div className="section-title">Seven Day Spending Distribution</div>
+            <div style={{ width: '500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Pie data={chartData} />
+            </div>
+          </div>
+
+
+
+
         <div className="content-grid">
-          <div className="section motivating-example">
+          <div className="section motivating-example" >
             <div className="section-title">Importance of Budgeting</div>
             <div className="section-content">
               <p><strong>What is a budget?</strong></p>
@@ -172,7 +242,8 @@ function Module6() {
               <p><strong>Review Regularly: </strong> Check your budget monthly or quarterly to ensure you’re meeting your financial goals and make adjustments as necessary.</p>
             </div>
           </div>
-          <div className="section actions">
+          
+          <div className="section actions" >
             <div className="section-title">Actions</div>
             <div className="section-content">
               <div>
@@ -238,70 +309,6 @@ function Module6() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="section budgeting-grid">
-            <div className="section-title">Find out your spendings</div>
-            <p className="section-description">
-              Let's find out your spending with this form. Look at receipts and bank transactions, and record all your spending for the last 7 days.
-            </p>
-            <div className="grid-header">
-              <div className="header-item">Description</div>
-              <div className="header-item">Date</div>
-              <div className="header-item">Category</div>
-              <div className="header-item">Amount</div>
-            </div>           
-            <div className="grid-container">
-              {rows.map((row, index) => (
-                <div key={index} className="grid-row">
-                  <input
-                    type="text"
-                    name="description"
-                    placeholder="Description"
-                    value={row.description}
-                    onChange={(e) => handleRowChange(index, e)}
-                  />
-                  <input
-                    type="date"
-                    name="date"
-                    value={row.date}
-                    onChange={(e) => handleRowChange(index, e)}
-                  />
-                  <select
-                    name="category"
-                    value={row.category}
-                    onChange={(e) => handleRowChange(index, e)}
-                  >
-                    <option value="Rent/mortgage">Rent/mortgage</option>
-                    <option value="Utilites">Utilites</option>
-                    <option value="Groceries">Groceries</option>
-                    <option value="Healthcare">Healthcare</option>
-                    <option value="Loan Payments">Loan Payments</option>
-                    <option value="Transportation">Transportation</option>
-                    <option value="Dining out">Dining out</option>
-                    <option value="Entertainment">Entertainment</option>
-                    <option value="Other">Other</option>
-                    
-                  </select>
-                  <input
-                    type="number"
-                    name="amount"
-                    placeholder="Amount"
-                    value={row.amount}
-                    onChange={(e) => handleRowChange(index, e)}
-                  />
-                </div>
-              ))}
-            </div>
-            <button onClick={handleAddRow} className="add-row-btn">
-              <span>+</span> Add Row
-            </button><button onClick={handleRemoveRow} className="remove-row-btn">
-              <span>−</span> Remove Row
-            </button>
-            <button onClick={handleSubmit} className="submit-btn">Submit</button>
-          </div>
-          <div className="section chart">
-            <div className="section-title">Distribution</div>
-              <Pie data={chartData} />
           </div>
         </div>
       </div>

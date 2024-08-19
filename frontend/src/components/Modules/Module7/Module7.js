@@ -76,7 +76,7 @@ function Module7() {
             </div>
             <img src={autopayImage} alt="Autopay Photo" style={{ marginTop: '20px', maxWidth: '100%', borderRadius: '8px' }} />
           </div>
-          <div className="section setup-and-allocations">
+          <div className="section setup-and-allocations" >
             <div className="section-title">Setting Up Automatic Transfers</div>
             <div className="section-content">
               <p><strong>How to set up Automatic Transfers?</strong></p>
@@ -98,7 +98,7 @@ function Module7() {
               <p>These percentages can vary based on individual financial situations and goals.</p>
             </div>
           </div>
-          <div className="section actions">
+          <div className="section actions" >
             <div className="section-title">Actions</div>
             <div className="section-content">
               

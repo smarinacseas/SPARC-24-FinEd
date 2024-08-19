@@ -32,7 +32,7 @@ h2 {
   grid-template-rows: auto auto;
   grid-template-areas:
     "left right"
-    "left right-bottom";
+    "right-bottom right-bottom";
 }
 
 .section {
@@ -40,6 +40,17 @@ h2 {
   padding: 20px;
   border-radius: 8px;
   box-sizing: border-box;
+}
+
+.section.info,
+.section.actions {
+  max-height: 600px; /* Match the height with the motivating-example section */
+  overflow-y: auto;
+}
+
+.section.motivating-example {
+  max-height: 600px; /* Keep the same height as other sections */
+  overflow-y: auto;
 }
 
 .motivating-example {
@@ -50,9 +61,11 @@ h2 {
   grid-area: right;
 }
 
+
 .actions {
   grid-area: right-bottom;
 }
+
 
 .section-title {
   font-weight: bold;
@@ -79,23 +92,26 @@ h2 {
   padding: 10px;
   border-bottom: 2px solid #ddd;
   margin-top: 10px;
+  margin-bottom: 10px; /* Space between the header and rows */
 }
 
 .header-item {
   padding: 5px;
 }
 
-.grid-container {
+.section.grid-container {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
-  margin-top: 10px;
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .grid-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 10px;
+  margin-bottom: 10px; /* Space between each row */
 }
 
 .grid-row input,
@@ -130,6 +146,14 @@ h2 {
   background-color: #64ac75;
 }
 
-.chart {
+.section.chart {
   display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 20px; 
+  margin-bottom: 20px;
+  max-height: 600px;
 }
