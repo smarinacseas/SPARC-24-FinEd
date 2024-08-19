@@ -11,7 +11,6 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     age = db.Column(db.Integer)
     occupation = db.Column(db.String(50))
-    #module = db.Column(db.Integer)
     module = db.Column(db.Integer) 
     demographics_completed= db.Column(db.Boolean, default=False)
     demographic_data = db.Column(db.Text)
@@ -22,6 +21,12 @@ class User(db.Model):
     module5 = db.Column(db.Integer, default=0)
     module6 = db.Column(db.Integer, default=0)
     module7 = db.Column(db.Integer, default=0)
+    mod1_advice = db.Column(db.Text)
+    mod2_advice = db.Column(db.Text)
+    mod3_advice = db.Column(db.Text)
+    mod4_advice = db.Column(db.Text)
+    mod5_advice = db.Column(db.Text)
+    mod6_advice = db.Column(db.Text)
 
     def __repr__(self):
         return f'<User {self.email}>'
