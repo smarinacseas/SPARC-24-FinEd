@@ -6,10 +6,10 @@ import { useAuth } from '../../../context/AuthContext';
 
 function Module3() {
   const { isAuthenticated, userEmail } = useAuth();
-  const [checkingAmount, setCheckingAmount] = useState('');
-  const [savingsAmount, setSavingsAmount] = useState('');
-  const [checkingAPY, setCheckingAPY] = useState('');
-  const [savingsAPY, setSavingsAPY] = useState('');
+  const [checkingAmount, setCheckingAmount] = useState(1000)
+  const [savingsAmount, setSavingsAmount] = useState(5000);
+  const [checkingAPY, setCheckingAPY] = useState(0.5);
+  const [savingsAPY, setSavingsAPY] = useState(4.5);
   const [checkingAPR, setCheckingAPR] = useState(null);
   const [savingsAPR, setSavingsAPR] = useState(null);
   //const [selectedActions, setSelectedActions] = useState([]);
@@ -19,6 +19,16 @@ function Module3() {
     openHighInterestSavings: false,
     moveFundsToSavings: false
   });
+
+  const handleReset = () => {
+    setCheckingAmount(1000);
+    setSavingsAmount(5000);
+    setCheckingAPY(0.5);
+    setSavingsAPY(4.5);
+    setCheckingAPR(null);
+    setSavingsAPR(null);
+  };
+
     // AI added
     const [checkAI, setAI] = useState(false);
     const [aiAdvice, setAiAdvice] = useState('');
@@ -126,93 +136,112 @@ function Module3() {
       <div className="main-content">
         <h1>Module 3</h1>
         <h2>Bank Accounts</h2>        
-        <div className="content-grid">
+        <div className="content-grid-module3">
+        <div className="section motivating-example_m3">
+        <div className="section-title">APY Calculator</div>
+    <div className="section-content">
+      <p>This tool helps you calculate the interest you can earn on your checking and savings accounts based on the account balances and their respective APY (Annual Percentage Yield). By entering the amount in your accounts and the APY, you can estimate the annual earnings for each account.</p>
 
-        <div className="section motivating-example">
-            <div className="section-title">APR Calculator</div>
-            <div className="section-content">
-              <div className="input-group">
-                <label>
-                  Checking Account Amount:   
-                  <input
-                    type="number"
-                    value={checkingAmount}
-                    onChange={(e) => setCheckingAmount(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div className="input-group">
-                <label>
-                  Checking Account APY (%):   
-                  <input
-                    type="number"
-                    value={checkingAPY}
-                    onChange={(e) => setCheckingAPY(e.target.value)}
-                  />
-                </label>
-              </div>
-              <button className="apr_button" onClick={calculateCheckingAPR}>Calculate Checking APR</button>
-              {checkingAPR !== null && (
-                <div>
-                  <h3>Checking Account APR: ${checkingAPR}</h3>
-                </div>
-              )}
+      <div className="input-group">
+        <label>
+          Checking Account Amount:   
+          <input
+            type="number"
+            value={checkingAmount}
+            onChange={(e) => setCheckingAmount(e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="input-group">
+        <label>
+          Checking Account APY (%):   
+          <input
+            type="number"
+            value={checkingAPY}
+            onChange={(e) => setCheckingAPY(e.target.value)}
+          />
+        </label>
+      </div>
+      <button className="apy_button" onClick={calculateCheckingAPR}>Calculate Checking APY</button>
 
-              <div className="input-group">
-                <label>
-                  Savings Account Amount:   
-                  <input
-                    type="number"
-                    value={savingsAmount}
-                    onChange={(e) => setSavingsAmount(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div className="input-group">
-                <label>
-                  Savings Account APY (%):   
-                  <input
-                    type="number"
-                    value={savingsAPY}
-                    onChange={(e) => setSavingsAPY(e.target.value)}
-                  />
-                </label>
-              </div>
-              <button className="apr_button" onClick={calculateSavingsAPR}>Calculate Savings APR</button>
-              {savingsAPR !== null && (
-                <div>
-                  <h3>Savings Account APR: ${savingsAPR}</h3>
-                </div>
-              )}
-            </div>
+      <div className="input-group">
+        <label>
+          Savings Account Amount:   
+          <input
+            type="number"
+            value={savingsAmount}
+            onChange={(e) => setSavingsAmount(e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="input-group">
+        <label>
+          Savings Account APY (%):   
+          <input
+            type="number"
+            value={savingsAPY}
+            onChange={(e) => setSavingsAPY(e.target.value)}
+          />
+        </label>
+      </div>
+      <button className="apy_button" onClick={calculateSavingsAPR}>Calculate Savings APY</button>
+      <div>
+        <h5>Checking Account APY: {checkingAPR !== null ? `$${checkingAPR}` : ''}</h5>
+        <h5>Savings Account APY: {savingsAPR !== null ? `$${savingsAPR}` : ''}</h5>
+      </div>
+
+      {/* Start Over Button */}
+      <button className="reset_button" onClick={handleReset}>Start Over</button>
+    </div>
           </div>
+          <div className="section info_m3 scrollable-section" style={{ maxHeight: '750px' }}>
+  <div className="section-title">How to Choose a Bank:</div>
+  <div className="section-content">
+    <ul>
+      <li><b>Trust:</b> Look for a bank with no monthly, overdraft, or setup fees, and ensure there are no hidden fees. Consider the bank's reputation and read reviews to understand customer experiences. Opt for banks that are FDIC-insured, which protects your deposits up to $250,000.</li>
+      <li><b>Convenience:</b> Choose a bank that offers easy account setup, straightforward money transfers, and good customer service. Consider the availability of ATMs and branches if you frequently need in-person banking services. For tech-savvy users, a bank with a user-friendly mobile app and online banking services can be a significant advantage.</li>
+      <li><b>Features:</b> Evaluate the bank’s interest rates, especially if you plan to keep a substantial balance in your accounts. Look for additional features such as free bill pay services, cashback offers, rewards programs, and the ability to set up automatic transfers to savings or investment accounts. Consider whether the bank offers budgeting tools, financial advice, or personalized account management services.</li>
+      <li><b>Security:</b> Ensure the bank provides robust security features, including two-factor authentication, fraud monitoring, and zero-liability policies for unauthorized transactions. Check how quickly the bank responds to security breaches and whether they offer identity theft protection services.</li>
+    </ul>
 
-          <div className="section info">
-          <div className="section-title">How to Choose a Bank:</div>
-          <div className="section-content">
-            <ul>
-              <li><b>Trust:</b> No monthly, overdraft or setup fees. No hidden fees.</li>
-              <li><b>Convenience:</b> Easy to setup and get money in and out. Good customer service.</li>
-              <li><b>Features:</b> Competitive interest rate, free bill paying</li>
-            </ul>
-            <h3>Checking Account:</h3>
-            <ul>
-              <li>This is your central hub. All income is filtered through your checking account before moving on to other accounts (savings, investment).</li>
-              <li>Choosing a Checking Account:</li>
-              <ul>
-                <li>If you need to deposit cash: A local bank’s checking account</li>
-                <li>If you don’t need to deposit cash: An online no-fee checking account</li>
-              </ul>
-            </ul>
-            <h3>Savings Account:</h3>
-            <ul>
-              <li>For short to mid-term savings (1-5 years)</li>
-              <li>Browse through the bank accounts on <a href="https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/" target="_blank" rel="noopener noreferrer"> bankrate </a> to select one that makes sense to you</li>
-            </ul>
-          </div>
-        </div>
+    <h3>Checking Account:</h3>
+    <ul>
+      <li>This is your central hub where all income is deposited and managed before being distributed to other accounts, such as savings or investment accounts. A checking account is ideal for daily transactions, such as paying bills, withdrawing cash, and making purchases.</li>
+      <li>Considerations when choosing a Checking Account:</li>
+      <ul>
+        <li><b>Cash Deposits:</b> If you regularly need to deposit cash, opt for a checking account with a local or regional bank that offers easy access to ATMs and branches. Check for any fees associated with cash deposits or withdrawals.</li>
+        <li><b>No Cash Deposits:</b> If you don’t need to deposit cash, an online no-fee checking account could be more beneficial. These accounts often offer better interest rates and lower fees compared to traditional banks, and they typically come with extensive online and mobile banking features.</li>
+        <li><b>Overdraft Protection:</b> Consider whether the bank offers overdraft protection and what fees are associated with it. Some banks offer free or low-cost overdraft protection by linking your checking account to a savings account or credit card.</li>
+        <li><b>Minimum Balance Requirements:</b> Be aware of any minimum balance requirements to avoid monthly maintenance fees. Choose an account that aligns with your typical account balance and transaction needs.</li>
+        <li><b>Interest-Bearing Accounts:</b> Some checking accounts offer interest on your balance, although the rates are usually lower than savings accounts. This can be a good option if you maintain a high balance in your checking account.</li>
+      </ul>
+    </ul>
 
-        <div className="section actions">
+    <h3>Savings Account:</h3>
+    <ul>
+      <li>Savings accounts are ideal for short- to mid-term savings goals (1-5 years), such as an emergency fund, a vacation, or a down payment on a house. They offer better interest rates than checking accounts, helping your money grow over time.</li>
+      <li>Considerations when choosing a Savings Account:</li>
+      <ul>
+        <li><b>Interest Rates:</b> Look for high-yield savings accounts that offer competitive interest rates. Online banks often offer higher rates than traditional banks due to lower overhead costs.</li>
+        <li><b>Access to Funds:</b> Evaluate how quickly you can access your funds if needed. Some savings accounts limit the number of withdrawals per month, and exceeding this limit could incur fees.</li>
+        <li><b>Automatic Transfers:</b> Consider setting up automatic transfers from your checking account to your savings account to ensure consistent savings. Some banks offer “round-up” programs that automatically transfer spare change from purchases into your savings account.</li>
+        <li><b>Additional Features:</b> Some savings accounts offer features such as sub-accounts for different savings goals, goal-setting tools, and personalized financial advice.</li>
+        <li><b>Account Fees:</b> Be aware of any maintenance fees or minimum balance requirements. Many online savings accounts have no fees or minimums, making them a good option for growing your savings.</li>
+      </ul>
+      <li>Browse through the bank accounts on <a href="https://www.bankrate.com/banking/savings/best-high-yield-interests-savings-accounts/" target="_blank" rel="noopener noreferrer">Bankrate</a> to select one that makes sense for you based on your financial goals and needs.</li>
+    </ul>
+
+    <h3>Additional Tips:</h3>
+    <ul>
+      <li><b>Bundle Services:</b> Some banks offer perks if you bundle multiple services, such as checking, savings, credit cards, and loans. This can include lower fees, higher interest rates, or cashback rewards.</li>
+      <li><b>Compare Offers:</b> Don’t hesitate to compare offers from different banks. Use online tools and resources like Bankrate, NerdWallet, or Credit Karma to compare fees, interest rates, and features.</li>
+      <li><b>Consider Credit Unions:</b> Credit unions often offer lower fees, better interest rates, and a more personalized banking experience compared to traditional banks. They are member-owned and focused on providing value to their members.</li>
+      <li><b>Read the Fine Print:</b> Always read the terms and conditions before opening an account. Be aware of any potential fees, rate changes, or limitations that could affect your banking experience.</li>
+    </ul>
+  </div>
+</div>
+
+        <div className="section actions_m3">
             <div className="section-title">Actions</div>
             <div className="section-content">
               <div>
@@ -271,7 +300,7 @@ function Module3() {
           </div>
 
         {/* AI Section */}
-        <div className="section ai-advice">
+        <div className="section ai-advice_m3">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">

@@ -112,7 +112,7 @@ function Module4() {
         <div className="content-grid-module4">
 
           {/* Power of Compounding Interest Section */}
-          <div className="section motivating-example scrollable-section" style={{ maxHeight: '600px' }}>
+          <div className="section motivating-example_m4 scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">The Power of Compounding Interest</div>
             <div className="section-content">
               <ul>
@@ -143,7 +143,7 @@ function Module4() {
           </div>
 
           {/* Retirement and Investment Accounts Section */}
-          <div className="section info scrollable-section" style={{ maxHeight: '600px' }}>
+          <div className="section info_m4 scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">Retirement and Investment Accounts</div>
             <div className="section-content">
               <ul>
@@ -260,10 +260,10 @@ function Module4() {
               </div>
             </div>
           </div>
-          </div>
+         
 
   {/* AI Section */}
-  <div className="section ai-advice">
+  <div className="section ai-advice_m4">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">
@@ -278,7 +278,7 @@ function Module4() {
           </div>
         </div>
         </div>
-
+        </div>
             {/* end AI section */}
 </div>);
 }

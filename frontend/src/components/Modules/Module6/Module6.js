@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../AllModules.css';
-// import './Module6.css';
+import './Module6.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
 import { Pie } from 'react-chartjs-2';
@@ -256,11 +256,8 @@ function Module6() {
             </div>
           </div>
 
-
-
-
-        <div className="content-grid">
-          <div className="section motivating-example" >
+        <div className="content-grid-module6">
+          <div className="section motivating-example_m6" >
             <div className="section-title">Importance of Budgeting</div>
             <div className="section-content">
               <p><strong>What is a budget?</strong></p>
@@ -274,7 +271,7 @@ function Module6() {
               </ul>
             </div>
           </div>
-          <div className="section info">
+          <div className="section info_m6 scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">How should you budget your money?</div>
             <div className="section-content">
               <p><strong>Set financial goals:</strong> Determine what you want to achieve with your budget, such as saving for a vacation, paying off debt, or building an emergency fund.</p>
@@ -291,7 +288,7 @@ function Module6() {
             </div>
           </div>
           
-          <div className="section actions" >
+          <div className="section actions_m6" >
             <div className="section-title">Actions</div>
             <div className="section-content">
               <div>
@@ -358,9 +355,9 @@ function Module6() {
               </div>
             </div>
           </div>
-        </div>
+        
         {/* AI Section */}
-        <div className="section ai-advice">
+        <div className="section ai-advice_m6">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">
@@ -373,6 +370,7 @@ function Module6() {
             )}
             </div>
           </div>
+        </div>
         </div>
             {/* end AI section */}
       </div>

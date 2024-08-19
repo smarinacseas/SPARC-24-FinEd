@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../AllModules.css';
-// import './Module5.css';
+import './Module5.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
  
@@ -96,10 +96,10 @@ function Module5() {
       <div className="main-content">
         <h1>Module 5</h1>
         <h2>Investing Simplified</h2>
-        <div className="content-grid">
+        <div className="content-grid-module5">
 
           {/* Power of Smart Investing Section */}
-          <div className="section motivating-example scrollable-section" style={{ maxHeight: '600px' }}>
+          <div className="section motivating-example_m5 scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">The Power of Smart Investing: An Overview</div>
             <div className="section-content">
               <ul>
@@ -153,7 +153,7 @@ function Module5() {
           </div>
 
           {/* Investing Explained Section */}
-          <div className="section info scrollable-section" style={{ maxHeight: '280px' }}>
+          <div className="section info_m5 scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">Investing Explained</div>
             <div className="section-content">
               <ul>
@@ -213,7 +213,7 @@ function Module5() {
           </div>
 
           {/* Actions Section */}
-          <div className="section actions scrollable-section" style={{ maxHeight: '300px' }}>
+          <div className="section actions_m5">
             <div className="section-title">Actions</div>
             <div className="section-content">
 
@@ -290,7 +290,7 @@ function Module5() {
           </div>
           </div>
             {/* AI Section */}
-          <div className="section ai-advice">
+          <div className="section ai-advice_m5">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">

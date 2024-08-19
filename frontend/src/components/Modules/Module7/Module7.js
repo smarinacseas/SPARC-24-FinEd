@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../AllModules.css';
-// import './Module7.css';
+import './Module7.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 import autopayImage from './autopay.jpg';
@@ -62,8 +62,8 @@ function Module7() {
       <div className="main-content">
         <h1>Module 7</h1>
         <h2>Linking Accounts to Create a Self-Sustaining Ecosystem</h2>
-        <div className="content-grid">
-          <div className="section motivating-example">
+        <div className="content-grid-module7">
+          <div className="section motivating-example_m7">
             <div className="section-title">Importance of Linking Accounts</div>
             <div className="section-content">
               <p><strong>What does it mean to link accounts?</strong></p>
@@ -77,7 +77,7 @@ function Module7() {
             </div>
             <img src={autopayImage} alt="Autopay Photo" style={{ marginTop: '20px', maxWidth: '100%', borderRadius: '8px' }} />
           </div>
-          <div className="section info" >
+          <div className="section info_m7" >
             <div className="section-title">Setting Up Automatic Transfers</div>
             <div className="section-content">
               <p><strong>How to set up Automatic Transfers?</strong></p>
@@ -99,7 +99,7 @@ function Module7() {
               <p>These percentages can vary based on individual financial situations and goals.</p>
             </div>
           </div>
-          <div className="section actions" >
+          <div className="section actions_m7" >
             <div className="section-title">Actions</div>
             <div className="section-content">
               

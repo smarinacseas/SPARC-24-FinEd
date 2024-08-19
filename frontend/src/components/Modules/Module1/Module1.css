@@ -23,67 +23,12 @@
   width: 100%;
   max-width: 400px; /* Adjust based on your layout */
   margin: 0 auto;
-}
-
-.interactive-image {
-  width: 100%;
-  height: auto;
+  text-align: center; /* Center content within the container */
 }
 
 .pie-chart {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-}
-
-.pie-piece {
-  position: absolute;
-  top: 50%;  /* Center vertically */
-  left: 50%;  /* Center horizontally */
-  width: 70%; /* Half the width of the chart */
-  height: 70%; /* Half the height of the chart */
-  background-color: transparent; /* Initially transparent */
-  transform-origin: center; /* Pivot around the center of the image */
-  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
-  transform: translate(-50%, -50%) rotate(var(--rotate-start));
-}
-
-.pie-piece:nth-child(1) {
-  /* --rotate-start: 288deg;
-  --rotate-end: 360deg; */
-  clip-path: polygon(50% 50%, 100% 50%, calc(cos(120deg)) calc(sin(120deg)));
-  /* background-color: rgba(0, 149, 255, 0.3); /* Initial color */} */
-
-.pie-piece:nth-child(2) {
-  --rotate-start: 72deg;
-  --rotate-end: 144deg;
-  clip-path: polygon(50% 50%, calc(50% + 50% * cos(72deg)) calc(50% + 50% * sin(72deg)), calc(50% + 50% * cos(144deg)) calc(50% + 50% * sin(144deg)));
-  /* background-color: rgba(255, 0, 162, 0.3); /* Initial color */} */
-
-.pie-piece:nth-child(3) {
-  --rotate-start: 144deg;
-  --rotate-end: 216deg;
-  /* background-color: rgba(0, 255, 153, 0.3); Hover effect */
-}
-
-.pie-piece:nth-child(4) {
-  --rotate-start: 216deg;
-  --rotate-end: 288deg;
-  /* background-color: rgba(255, 0, 0, 0.3); Hover effect */
-
-}
-
-.pie-piece:nth-child(5) {
-  --rotate-start: 0deg;
-  --rotate-end: 72deg; /* Adjust based on your chart's divisions */
-  /* background-color: rgba(234, 255, 0, 0.3); Hover effect */
-
-}
-
-.pie-piece:hover {
-  /* background-color: rgba(43, 0, 255, 0.3); Hover effect */
+  height: auto; /* Maintain aspect ratio */
 }
 
 .hover-info {
@@ -93,10 +38,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.hover-info {
-  margin-top: 10px;
   font-size: 1em;
   color: #333;
 }
+

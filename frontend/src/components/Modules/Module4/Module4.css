@@ -1,31 +1,31 @@
-/* Scrollable section container */
-.scrollable-section {
-  position: relative;
+
+.motivating-example_m4 {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  max-height: 600px;
   overflow-y: auto;
-  padding-right: 10px; /* Adjust padding for scroll */
-  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.3); /* Scroll indicator (shadow) */
 }
 
-/* Adding gradient at the bottom as an indicator */
-.scrollable-section::after {
-  content: "";
-  position: sticky; /* Keeps the gradient in view at the bottom */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 30px;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
-  pointer-events: none;
+.info_m4 {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
-.actions_m4 {
+.interest-calc {
   grid-column: 1 / 3;
   grid-row: 2 / 3;
 }
 
-.motivating-example {
-  max-height: 600px;
-  overflow-y: auto;
+.ai-advice_m4 {
+  grid-column: 1 / 3;
+  grid-row: 4 / 5;
+}
+
+.actions_m4 {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
 }
 
 .video-section {

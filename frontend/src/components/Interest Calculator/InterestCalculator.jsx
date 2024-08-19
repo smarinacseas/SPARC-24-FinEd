@@ -14,6 +14,18 @@ const CompoundInterestCalculator = () => {
   const [message, setMessage] = useState('');
   const [calculatedBalance, setCalculatedBalance] = useState('');
 
+  const handleReset = () => {
+    setInitialDeposit('');
+    setAnnualContribution('');
+    setCurrentAge('');
+    setRetirementAge('');
+    setRateOfReturn('');
+    setCompoundFrequency('Annually'); // Set to default value
+    setYearlyBalances([]);
+    setMessage('');
+    setCalculatedBalance('');
+  };
+
   const calculateCompoundInterest = (principal, annualContribution, rate, years, frequency) => {
     const frequencyMap = {
       Daily: 365,
@@ -241,6 +253,7 @@ const CompoundInterestCalculator = () => {
         </div>
 
         <button className="btn" onClick={handleSubmit}>Calculate</button>
+        <button className="btn" onClick={handleReset}>Reset</button>
         {message && <p className="error-message">{message}</p>}
 
         {/* Render the chart */}

@@ -1,0 +1,27 @@
+.chart-container {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .tooltip-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    pointer-events: none; /* Prevents the tooltip from affecting chart interaction */
+  }
+  
+  .tooltip-box h4 {
+    margin: 0 0 5px 0;
+  }
+  
+  .tooltip-box p {
+    margin: 0;
+  }
