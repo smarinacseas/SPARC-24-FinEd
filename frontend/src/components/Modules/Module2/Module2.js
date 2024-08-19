@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import './Module2.css';
+import '../AllModules.css';
+import './Module2.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 
@@ -170,9 +171,8 @@ function Module2() {
       <div className="main-content">
         <h1>Module 2</h1>
         <h2>Debt Management</h2>
-
-        <div className="content-grid">
-          <div className="section motivating-example">
+        <div className="content-grid-module2">
+          <div className="section motivating-example_m2">
             <div className="section-title">Emily's Debt Management Success</div>
             <div className="section-content">
               <h5>The Situation:</h5>
@@ -197,58 +197,13 @@ function Module2() {
                 <h5>Takeaway:</h5> With a clear plan and dedication, Emily successfully managed and reduced her debt, leading to improved financial health and peace of mind.
             </div>
           </div>
-          <div className="section info">
+          <div className="section info_m2">
             <div className="section-title">What is Debt Management?</div>
             <div className="section-content">
               Debt management involves strategies and practices designed to handle and reduce personal debt effectively. It focuses on organizing, paying off, and ultimately eliminating debts to achieve financial stability and improve overall financial health.
             </div>
           </div>
-          <div className="section actions">
-            <div className="section-title">Actions</div>
-            <div className="section-content">
-              <div>
-                <label style={{ opacity: checkedItems.spendingHabits ? 0.5 : 1 }}>
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.spendingHabits}
-                    onChange={() => handleCheckboxChange('spendingHabits')}
-                  />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Analyze your spending habits.</span>
-                </label>
-                <p style={{ marginTop: '5px', opacity: checkedItems.spendingHabits ? 0.5 : 1 }}>
-                  Review your monthly expenses to identify areas where you can cut back and save.
-                </p>
-              </div>
-              <div>
-                <label style={{ opacity: checkedItems.setPriorities ? 0.5 : 1 }}>
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.setPriorities}
-                    onChange={() => handleCheckboxChange('setPriorities')}
-                  />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Set your financial priorities.</span>
-                </label>
-                <p style={{ marginTop: '5px', opacity: checkedItems.setPriorities ? 0.5 : 1 }}>
-                  Decide what is most important to you and allocate funds accordingly.
-                </p>
-              </div>
-              <div>
-                <label style={{ opacity: checkedItems.createBudget ? 0.5 : 1 }}>
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.createBudget}
-                    onChange={() => handleCheckboxChange('createBudget')}
-                  />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Create a budget that works for you.</span>
-                </label>
-                <p style={{ marginTop: '5px', opacity: checkedItems.createBudget ? 0.5 : 1 }}>
-                  Plan your monthly income and expenses to ensure you stay on track financially.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="section repayment">
+        <div className="section repayment_m2">
           <h3>Debt Repayment Calculator</h3>
           {/* Debt calculator component here */}
             <p>See how long it could take to pay off your credit card debt.</p>
@@ -301,23 +256,65 @@ function Module2() {
               </div>
             )}
         </div>
-        {/* AI Section */}
-        <div className="section ai-advice">
+        <div className="section actions_m2">
+            <div className="section-title">Actions</div>
+            <div className="section-content">
+              <div>
+                <label style={{ opacity: checkedItems.spendingHabits ? 0.5 : 1 }}>
+                  <input
+                    type="checkbox"
+                    checked={checkedItems.spendingHabits}
+                    onChange={() => handleCheckboxChange('spendingHabits')}
+                  />
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Analyze your spending habits.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.spendingHabits ? 0.5 : 1 }}>
+                  Review your monthly expenses to identify areas where you can cut back and save.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: checkedItems.setPriorities ? 0.5 : 1 }}>
+                  <input
+                    type="checkbox"
+                    checked={checkedItems.setPriorities}
+                    onChange={() => handleCheckboxChange('setPriorities')}
+                  />
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Set your financial priorities.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.setPriorities ? 0.5 : 1 }}>
+                  Decide what is most important to you and allocate funds accordingly.
+                </p>
+              </div>
+              <div>
+                <label style={{ opacity: checkedItems.createBudget ? 0.5 : 1 }}>
+                  <input
+                    type="checkbox"
+                    checked={checkedItems.createBudget}
+                    onChange={() => handleCheckboxChange('createBudget')}
+                  />
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Create a budget that works for you.</span>
+                </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.createBudget ? 0.5 : 1 }}>
+                  Plan your monthly income and expenses to ensure you stay on track financially.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section ai_advice_m2">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">
             <p><strong>What are the most effective strategies for reducing my current debt load?</strong></p>
-              <button onClick={handleGetAdvice}>Consult AI for Personalized Insights</button>
+              <button className="ai_button" onClick={handleGetAdvice}>Consult AI for Personalized Insights</button>
               {checkAI && (
               <div className="result">
                 <p><strong>AI Advice:</strong> {aiAdvice} </p>
               </div>
             )}
             </div>
+            </div>
           </div>
-        </div>
-            {/* end AI section */}
-
+          </div>
       </div>
     </div>
   );

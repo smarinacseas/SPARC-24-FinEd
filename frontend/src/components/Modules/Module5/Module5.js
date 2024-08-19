@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Module5.css';
+import '../AllModules.css';
+// import './Module5.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
  

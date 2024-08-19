@@ -151,7 +151,7 @@ function Module3() {
                   />
                 </label>
               </div>
-              <button onClick={calculateCheckingAPR}>Calculate Checking APR</button>
+              <button className="apr_button" onClick={calculateCheckingAPR}>Calculate Checking APR</button>
               {checkingAPR !== null && (
                 <div>
                   <h3>Checking Account APR: ${checkingAPR}</h3>
@@ -178,7 +178,7 @@ function Module3() {
                   />
                 </label>
               </div>
-              <button onClick={calculateSavingsAPR}>Calculate Savings APR</button>
+              <button className="apr_button" onClick={calculateSavingsAPR}>Calculate Savings APR</button>
               {savingsAPR !== null && (
                 <div>
                   <h3>Savings Account APR: ${savingsAPR}</h3>
@@ -269,7 +269,7 @@ function Module3() {
               </div>
             </div>
           </div>
-        </div>
+
         {/* AI Section */}
         <div className="section ai-advice">
           <div className="section-title">AI Insights</div>
@@ -284,6 +284,7 @@ function Module3() {
             )}
             </div>
           </div>
+        </div>
         </div>
             {/* end AI section */}
       </div>

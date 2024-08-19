@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './Module7.css';
+import '../AllModules.css';
+// import './Module7.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
 import autopayImage from './autopay.jpg';
@@ -76,7 +77,7 @@ function Module7() {
             </div>
             <img src={autopayImage} alt="Autopay Photo" style={{ marginTop: '20px', maxWidth: '100%', borderRadius: '8px' }} />
           </div>
-          <div className="section setup-and-allocations" >
+          <div className="section info" >
             <div className="section-title">Setting Up Automatic Transfers</div>
             <div className="section-content">
               <p><strong>How to set up Automatic Transfers?</strong></p>

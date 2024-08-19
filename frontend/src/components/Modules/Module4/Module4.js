@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import '../AllModules.css';
 import './Module4.css';
 import api from '../../../api';
 import InterestCalculator from '../../Interest Calculator/InterestCalculator';
@@ -108,7 +109,7 @@ function Module4() {
             <iframe width="800" height="450" src="https://www.youtube.com/embed/25NLw6vhpw8?si=2AhBgwwOEDd3kRre" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
-        <div className="content-grid">
+        <div className="content-grid-module4">
 
           {/* Power of Compounding Interest Section */}
           <div className="section motivating-example scrollable-section" style={{ maxHeight: '600px' }}>
@@ -142,7 +143,7 @@ function Module4() {
           </div>
 
           {/* Retirement and Investment Accounts Section */}
-          <div className="section info scrollable-section" style={{ maxHeight: '300px' }}>
+          <div className="section info scrollable-section" style={{ maxHeight: '600px' }}>
             <div className="section-title">Retirement and Investment Accounts</div>
             <div className="section-content">
               <ul>
@@ -180,9 +181,11 @@ function Module4() {
               </ul>
             </div>
           </div>
-
+          <div className="section interest-calc">
+    <InterestCalculator />
+    </div>
           {/* Actions Section */}
-          <div className="section actions scrollable-section" style={{ maxHeight: '280px' }}>
+          <div className="section actions_m4" >
             <div className="section-title">Actions</div>
             <div className="section-content">
 
@@ -258,8 +261,6 @@ function Module4() {
             </div>
           </div>
           </div>
-    <InterestCalculator />
-  </div>
 
   {/* AI Section */}
   <div className="section ai-advice">
@@ -276,6 +277,8 @@ function Module4() {
             </div>
           </div>
         </div>
+        </div>
+
             {/* end AI section */}
 </div>);
 }

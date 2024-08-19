@@ -1,3 +1,23 @@
+.motivating-example_m1 {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.info_m1 {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.actions_m1 {
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
+}
+
+.ai-advice_m1 {
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
+}
+
 .pie-chart-container {
   position: relative;
   width: 100%;

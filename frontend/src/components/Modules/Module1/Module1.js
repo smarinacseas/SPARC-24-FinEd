@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../AllModules.css';
 import './Module1.css';
 import PieChart from './Pie_chart.png';
 import api from '../../../api';
@@ -141,8 +142,8 @@ function Module1() {
       <div className="main-content">
         <h1>Module 1</h1>
         <h2>Credit Cards</h2>
-        <div className="content-grid">
-          <div className="section motivating_example">
+        <div className="content-grid content-grid-module1">
+          <div className="section motivating_example_m1">
             <div className="section-title">How to Improve Your Credit Score</div>
             <div className="section-content">
               <p>Hover over the sections of the pie chart to see what impacts your credit score:</p>
@@ -171,7 +172,7 @@ function Module1() {
               )}
             </div>
           </div>
-          <div className="section info">
+          <div className="section info_m1">
             <div className="section-title">What Is a Credit Report and Credit Score</div>
             <div className="section-content">
               <ul>
@@ -201,7 +202,7 @@ function Module1() {
               </ul>
             </div>
           </div>
-          <div className="section actions">
+          <div className="section actions_m1">
             <div className="section-title">Actions</div>
             <div className="section-content">
               <div>
@@ -245,14 +246,13 @@ function Module1() {
               </div>
             </div>
           </div>
-        </div>
          {/* AI Section */}
-         <div className="section ai-advice">
+         <div className="section ai-advice_m1">
           <div className="section-title">AI Insights</div>
           <div className="section-content">
             <div className="ai-box">
-            <p><strong>Which type of credit card is best for my financial situation: rewards, cash back, or low interest?</strong></p>
-              <button onClick={handleGetAdvice}>Consult AI for Personalized Insights</button>
+            <p>Which type of credit card is best for my financial situation: rewards, cash back, or low interest?</p>
+            <button className="ai_button" onClick={handleGetAdvice}> Consult AI for Personalized Insights</button>
               {checkAI && (
               <div className="result">
                 <p><strong>AI Advice:</strong> {aiAdvice} </p>
@@ -262,6 +262,7 @@ function Module1() {
           </div>
         </div>
             {/* end AI section */}
+      </div>
       </div>
     </div>
   );

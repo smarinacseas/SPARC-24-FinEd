@@ -25,16 +25,6 @@ h2 {
   color: #031926;
 }
 
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "left right"
-    "right-bottom right-bottom";
-}
-
 .section {
   background-color: #d9e2e3;
   padding: 20px;

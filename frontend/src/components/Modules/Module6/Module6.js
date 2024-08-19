@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import './Module6.css';
+import '../AllModules.css';
+// import './Module6.css';
 import api from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
 import { Pie } from 'react-chartjs-2';

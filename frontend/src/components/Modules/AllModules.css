@@ -1,5 +1,32 @@
+  .content-grid-module1 {
+    display: grid;
+    grid-template-columns: 4fr 7fr;
+    gap: 20px;
+    grid-template-rows: auto auto auto auto;
+  }
 
-.module-container {
+  .content-grid-module2 {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 20px;
+    grid-template-rows: auto auto auto auto auto;
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 4fr 7fr;
+    gap: 20px;
+    grid-template-rows: auto auto auto auto auto;
+  }
+  
+  .content-grid-module4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-template-rows: auto auto auto auto auto;
+  }
+
+  .module-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,6 +110,11 @@
       grid-row: 2 / 3;
     }
   
+    .ai-advice {
+      grid-column: 1 / 3;
+      grid-row: 3 / 4;
+    }
+
     .section-content form div {
       display: flex;
       align-items: center;
@@ -93,3 +125,69 @@
       margin-right: 10px; /* Adds space between the checkbox and the label */
     }
   
+    .ai-advice {
+      grid-column: 1 / 3;
+      grid-row: 3 / 4;
+    }
+
+    .ai-box {
+      background-color: #ffffff; /* Light background to contrast with the section */
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+      margin-top: 20px; /* Space between sections */
+    }
+
+    .ai-box p {
+      margin-bottom: 10px; /* Reduce the space below the question */
+    }
+
+    .ai_button {
+      margin-top: 10px; /* Reduce the top margin to move closer to the question */
+      padding: 10px 20px;
+      background-color: #f4e9cd;
+      font-weight: bold; 
+      color: #031926;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+    .ai_button:hover {
+      background-color: #c0c0c0;
+    }
+
+    .result {
+      margin-top: 20px; /* Space above the result */
+      padding: 10px;
+      background-color: #d9e2e3; /* Background color to match the section */
+      border: 4px solid #4E6766; /* Decorative border */
+      border-radius: 4px;
+    }
+
+    .result p {
+      margin: 0;
+      font-size: 1rem;
+      color: #031926;
+  }
+
+  /* Scrollable section container */
+.scrollable-section {
+  position: relative;
+  overflow-y: auto;
+  padding-right: 10px; /* Adjust padding for scroll */
+  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.3); /* Scroll indicator (shadow) */
+}
+
+/* Adding gradient at the bottom as an indicator */
+.scrollable-section::after {
+  content: "";
+  position: sticky; /* Keeps the gradient in view at the bottom */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+}

@@ -1,40 +1,3 @@
-.module-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.main-content {
-  width: 90%;
-  max-width: 1200px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-h1 {
-  margin-bottom: 0px;
-  font-size: 32px;
-  font-weight: medium;
-  color: #031926;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 32px;
-  font-weight: bold;
-  color: #031926;
-}
-
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "left right"
-    "left right-bottom";
-}
-
 /* Scrollable section container */
 .scrollable-section {
   position: relative;
@@ -55,38 +18,14 @@ h2 {
   pointer-events: none;
 }
 
-.section.info,
-.section.actions {
-  max-height: 600px; /* Match the height with the motivating-example section */
-  overflow-y: auto;
-}
-
-.section.motivating-example {
-  max-height: 600px; /* Keep the same height as other sections */
-  overflow-y: auto;
+.actions_m4 {
+  grid-column: 1 / 3;
+  grid-row: 2 / 3;
 }
 
 .motivating-example {
-  grid-area: left;
-}
-
-.info {
-  grid-area: right;
-}
-
-.actions {
-  grid-area: right-bottom;
-}
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-}
-
-.section-content ul {
-  list-style: disc;
-  margin-left: 20px;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .video-section {
@@ -95,13 +34,6 @@ h2 {
   border-radius: 8px;
   box-sizing: border-box;
   margin-bottom: 20px;
-}
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  color: #031926;
 }
 
 .video-container {
