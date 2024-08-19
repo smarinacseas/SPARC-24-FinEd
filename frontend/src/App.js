@@ -4,6 +4,7 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Home from './components/Home/Home';
 import Quiz from './components/Quiz/Quiz';
+import Demographics from './components/Demographics/Demographics';
 import Header from './components/Header/Header';
 import Module1 from './components/Modules/Module1/Module1';
 import Module2 from './components/Modules/Module2/Module2';
@@ -25,27 +26,30 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
-          <Header /> {/* Always render the Header */}
-          <Routes>
-            {process.env.REACT_APP_DEV_MODE === 'true' ? (
-              <Route path="*" element={<Home />} />
-            ) : (
-              <>
-                <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
-                <Route path="/quiz" element={<PrivateRoute><Quiz /></PrivateRoute>} />
-                <Route path="/module1" element={<PrivateRoute><Module1 /></PrivateRoute>} />
-                <Route path="/module2" element={<PrivateRoute><Module2 /></PrivateRoute>} />
-                <Route path="/module3" element={<PrivateRoute><Module3 /></PrivateRoute>} />
-                <Route path="/module4" element={<PrivateRoute><Module4 /></PrivateRoute>} />
-                <Route path="/module5" element={<PrivateRoute><Module5 /></PrivateRoute>} />
-                <Route path="/module6" element={<PrivateRoute><Module6 /></PrivateRoute>} />
-                <Route path="/module7" element={<PrivateRoute><Module7 /></PrivateRoute>} />
-              </>
-            )}
-          </Routes>
+          <>
+            <Header />
+            <Routes>
+              {process.env.REACT_APP_DEV_MODE === 'true' ? (
+                <Route path="*" element={<Home />} />
+              ) : (
+                <>
+                  <Route path="/" element={<Navigate to="/login" />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+                  <Route path="/info" element={<PrivateRoute><Demographics /></PrivateRoute>} />
+                  <Route path="/quiz" element={<PrivateRoute><Quiz /></PrivateRoute>} />
+                  <Route path="/module1" element={<PrivateRoute><Module1 /></PrivateRoute>} />
+                  <Route path="/module2" element={<PrivateRoute><Module2 /></PrivateRoute>} />
+                  <Route path="/module3" element={<PrivateRoute><Module3 /></PrivateRoute>} />
+                  <Route path="/module4" element={<PrivateRoute><Module4 /></PrivateRoute>} />
+                  <Route path="/module5" element={<PrivateRoute><Module5 /></PrivateRoute>} />
+                  <Route path="/module6" element={<PrivateRoute><Module6 /></PrivateRoute>} />
+                  <Route path="/module7" element={<PrivateRoute><Module7 /></PrivateRoute>} />
+                </>
+              )}
+            </Routes>
+          </>
         </AuthProvider>
       </Router>
     </div>

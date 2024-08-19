@@ -1,11 +1,18 @@
-from flask import Flask, request, jsonify, flash
+from flask import Flask, request, jsonify, flash, render_template
 from flask_cors import CORS
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect, generate_csrf
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+# from flask_migrate import Migrate
 from user import db, User
 from flask_bcrypt import Bcrypt
 import os
+import json  # Import the json module
+
+
+#for Debug
+#import logging
+#logging.basicConfig(level=logging.DEBUG)
 
 # Load env vars from .env file
 load_dotenv()
@@ -33,7 +40,11 @@ db.init_app(app)
 
 # Enable CORS for all routes
 #CORS(app)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True) 
+
+# migrate = Migrate(app, db)
+
+# migrate = Migrate(app, db)
 
 # Endpoint for registering a new user
 @app.route('/register', methods=['POST'])
@@ -57,7 +68,7 @@ def register():
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     # Create a new user and add to database
-    new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password, module=-1)
+    new_user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password, module=1, module1=0, module2=0, module3=0, module4=0, module5=0, module6=0, module7=0)
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message': 'User registered successfully'}), 201
@@ -82,7 +93,30 @@ def login():
     if not cur_user or not bcrypt.check_password_hash(cur_user.password, password):
         return jsonify({'message': 'The username or password is not correct. Please try again'}), 401
 
-    return jsonify({'message': 'Login successful'}), 200
+    return jsonify({'message': 'Login successful', 'user_id': cur_user.id, 'demographicsCompleted': cur_user.demographics_completed}), 200
+
+
+# Endpoint for demographics info
+@app.route('/info', methods=['POST'])
+@csrf.exempt
+def demographics():
+    data = request.json
+    user_id = data.get('user_id')
+    demographic_answers = data.get('answers')  # Assume this is a dictionary of answers
+
+    # Find the user
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    # Save the answers to the database (You might need to create a separate table or columns)
+    # For simplicity, assuming you store it as a JSON string
+    #  in the user model
+    user.demographic_data = json.dumps(demographic_answers)
+    user.demographics_completed = True
+    db.session.commit()
+
+    return jsonify({'message': 'Demographic data saved successfully'}), 200
 
 # Endpoint for quiz page
 @app.route('/quiz', methods=['GET'])
@@ -120,6 +154,64 @@ def quiz():
             }
         ]
     return jsonify(questions)
+    
+# Endpoint for logging in an existing user
+@app.route('/update-progress', methods=['POST'])
+@csrf.exempt
+def update_progress():
+    data = request.json
+    email = data.get('email')
+    module = data.get('module')
+    progress = data.get('progress')
+
+    user = User.query.filter_by(email=email).first()
+    if user:
+        if module == "module1":
+           user.module1 = progress
+        elif module == "module2":
+            user.module2 = progress
+        elif module == "module3":
+            user.module3 = progress
+        elif module == "module4":
+            user.module4 = progress
+        elif module == "module5":
+            user.module5 = progress
+        elif module == "module6":
+            user.module6 = progress
+        elif module == "module7":
+            user.module7 = progress
+
+        db.session.commit()
+        return jsonify({"message": "Progress updated successfully."}), 200
+    else:
+        return jsonify({"message": "User not found."}), 404
+
+
+#@app.route('/get-progress', methods=['POST'])
+@app.route('/get-progress', methods=['GET'])
+@csrf.exempt
+def get_progress():
+    email = request.args.get('email')
+
+    if not email:
+        return jsonify({"message": "Email parameter is missing."}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if user:
+        module_progress = {
+            "module1": user.module1,
+            "module2": user.module2,
+            "module3": user.module3,
+            "module4": user.module4,
+            "module5": user.module5,
+            "module6": user.module6,
+            "module7": user.module7
+        }
+
+        print('Sending progress data:', module_progress)
+        return jsonify(module_progress), 200
+    else:
+        return jsonify({"message": "User not found."}), 404
 
 
 if __name__ == '__main__':

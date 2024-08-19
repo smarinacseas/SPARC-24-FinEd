@@ -1,36 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Module7.css';
-import axios from 'axios'; // Import axios for API calls
+import api from '../../../api';
+import { useAuth } from '../../../context/AuthContext'; // Adjust the import path as necessary
+import autopayImage from './autopay.jpg';
+
 
 function Module7() {
+  const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
   const [checkedItems, setCheckedItems] = useState({
     setupAutomaticTransfers: false,
     setupAutomatedPayments: false,
-    organizeMoney: false,
+    //organizeMoney: false,
   });
 
-  // Function to handle checkbox changes
+  useEffect(() => {
+    const savedCheckedItems = localStorage.getItem('module7CheckedItems');
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+    }
+  }, []);
+
   const handleCheckboxChange = async (item) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return; // Prevent further actions if not authenticated
+    }
+
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
-      //updateProgress(updatedCheckedItems); // Update progress on checkbox change
+      const totalActions = Object.keys(updatedCheckedItems).length;
+      const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedCheckedItems, progress); // Update progress and state
+      localStorage.setItem('module7CheckedItems', JSON.stringify(updatedCheckedItems)); // Save to local storage
       return updatedCheckedItems;
     });
   };
 
-  // Function to update progress in the backend
-  //const updateProgress = async (updatedCheckedItems) => {
-  //  const totalActions = Object.keys(updatedCheckedItems).length;
-  //  const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
-   // const progress = (completedActions / totalActions) * 100;
-
-  //  try {
-      // Send progress to backend
-   //   await axios.post('/api/update-progress', { module: 'module7', progress });
-  //  } catch (error) {
-  //    console.error('Error updating progress:', error);
-  //  }
-  //};
+  const updateProgress = async (updatedActions, progress) => {
+    if (userEmail) {
+      try {
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module7',
+          progress: progress,
+        });
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email or CSRF token is not available');
+    }
+  };
 
   return (
     <div className="module-container">
@@ -42,16 +65,28 @@ function Module7() {
             <div className="section-title">Importance of Linking Accounts</div>
             <div className="section-content">
               <p><strong>What does it mean to link accounts?</strong></p>
-              <p>Linking accounts allows for automatic transfers and payments, creating a seamless financial ecosystem.</p>
+              <p>Linking accounts allows for automatic transfers and payments which helps create a self sustaining system. Automating this financial system means setting up processes that automatically manage your money, such as paying bills, saving, and investing, without needing manual intervention.</p>
               <p><strong>Why is this important?</strong></p>
-              <p>Setting up automatic transfers can help ensure that bills are paid on time, savings goals are met, and investments are funded regularly.</p>
+              <ul>
+                <li><strong>Reduces Stress:</strong> Automation eliminates the need to remember every financial task, reducing mental load and stress.</li>
+                <li><strong>Ensures Consistency:</strong> Regular savings, investments, and bill payments happen without fail, helping you stay on track with your financial goals.</li>
+                <li><strong>Prevents Late Fees:</strong> Automating the payments process ensure you never miss a due date, avoiding penalties and interest charges.</li>
+              </ul>
             </div>
+            <img src={autopayImage} alt="Autopay Photo" style={{ marginTop: '20px', maxWidth: '100%', borderRadius: '8px' }} />
           </div>
           <div className="section setup-and-allocations">
-            <div className="section-title">Setting Up Automatic Transfers & Recommended Allocations</div>
+            <div className="section-title">Setting Up Automatic Transfers</div>
             <div className="section-content">
-              <p>Establish automatic transfers between your checking and savings accounts to build your emergency fund.</p>
-              <p>Schedule payments for debts and credit cards to avoid late fees.</p>
+              <p><strong>How to set up Automatic Transfers?</strong></p>
+              <ul>
+                <li><strong>Checking Account:</strong> Use this as your core for income deposits</li>
+                <li><strong>Savings Transfers:</strong> Set up automatic transfers from your checking account to your savings account(s) each month.</li>
+                <li><strong>Credit Card Payment:</strong> Set up automatic payment for credit card payments, ideally paying the full balance each month to avoid debt.</li>
+                <li><strong>Bill Payments:</strong> Schedule automatic bill payments for fixed expenses, such as rent, utilities, credit card bills, to avoid late payments.</li>
+                <li><strong>Investment Contributions:</strong> Automate regular contributions to your investment accounts, like your 401(k) and Roth IRA.</li>
+              </ul>
+              <p><strong>Recommended Allocations:</strong></p>
               <p>Consider the following percentage allocations based on your budget plan:</p>
               <ul>
                 <li><strong>Checking Account:</strong> 10-15% of monthly income for daily expenses and bills.</li>
@@ -91,19 +126,6 @@ function Module7() {
                   Ensure timely payments on your debts by automating your monthly payments to avoid interest and penalties.
                 </p>
               </div>
-              <div>
-                <label style={{ opacity: checkedItems.organizeMoney ? 0.5 : 1 }}>
-                  <input
-                    type="checkbox"
-                    checked={checkedItems.organizeMoney}
-                    onChange={() => handleCheckboxChange('organizeMoney')}
-                  />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Organize your money based on your budget plan.</span>
-                </label>
-                <p style={{ marginTop: '5px', opacity: checkedItems.organizeMoney ? 0.5 : 1 }}>
-                  Determine how to allocate your funds for checking, savings (emergency fund), retirement, and investments.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -111,4 +133,5 @@ function Module7() {
     </div>
   );
 }
+
 export default Module7;

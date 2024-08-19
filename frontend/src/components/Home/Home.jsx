@@ -1,28 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
-import './home.css'; // Import the CSS file
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api';
+import './home.css';
 
 function Home() {
-  // const { logout } = useAuth();
+  const { userEmail, isAuthenticated } = useAuth();  // Retrieve the authenticated user
   const navigate = useNavigate();
+  const [moduleProgress, setModuleProgress] = useState({});
+  const [unlockStatus, setUnlockStatus] = useState({});
 
   const goToModule = (modulePath) => {
     navigate(modulePath);
   };
 
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (isAuthenticated && userEmail) {
+        try {
+          const response = await api.get('/get-progress', {
+            params: { email: userEmail }
+          });
+          setModuleProgress(response.data);  
+          
+          // Determine which modules are unlocked
+          const updatedUnlockStatus = {};
+          let previousModule = 'module1'; //remove this
+          let isUnlocked = true;
+
+          //remove the for loop
+          Object.keys(response.data).forEach((module) => {
+            updatedUnlockStatus[module] = isUnlocked;
+  
+            if (response.data[module] === 100) {
+              isUnlocked = true;
+            } else {
+              isUnlocked = false;
+            }
+          });
+  
+          setUnlockStatus(updatedUnlockStatus);
+        } catch (error) {
+          console.error('Error fetching progress:', error);
+        }
+      }
+    };
+
+    fetchProgress();
+  }, [userEmail, isAuthenticated]);
+
+  
+
   return (
     <div className="home-container">
       <h1 className="home-title">Roadmap</h1>
-      {/* <button className="home-button" onClick={logout}>Logout</button> */}
       <button className="home-button" onClick={() => goToModule('/quiz')}>Go to Quiz</button>
-      <button className="home-button" onClick={() => goToModule('/module1')}>Go to Module 1</button>
-      <button className="home-button" onClick={() => goToModule('/module2')}>Go to Module 2</button>
-      <button className="home-button" onClick={() => goToModule('/module3')}>Go to Module 3</button>
-      <button className="home-button" onClick={() => goToModule('/module4')}>Go to Module 4</button>
-      <button className="home-button" onClick={() => goToModule('/module5')}>Go to Module 5</button>
-      <button className="home-button" onClick={() => goToModule('/module6')}>Go to Module 6</button>
-      <button className="home-button" onClick={() => goToModule('/module7')}>Go to Module 7</button>
+
+      {Object.keys(moduleProgress).map((module, index) => {
+        const moduleNumber = module.replace('module', '');
+
+        //console.log("module #: ", moduleNumber); // Debugging line
+        //console.log("progress: ", moduleProgress[module]); // Debugging line
+        
+        return (
+          <div key={index} className="module">
+            <button
+              className={`home-button ${unlockStatus[module] ? '' : 'locked'}`}
+              onClick={() => unlockStatus[module] && goToModule(`/${module}`)}
+              disabled={!unlockStatus[module]}
+            >
+              Go to Module {moduleNumber}
+              <div className="progress-bar" style={{ width: `${moduleProgress[module] ?? 0}%` }}></div>
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }

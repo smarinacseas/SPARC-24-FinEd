@@ -17,12 +17,18 @@ const Login = () => {
       const response = await api.post('/login', { email, password });
       console.log('Server response:', response);
       setMessage(response.data.message);
-
+  
       if (response.status === 200) {
-        // Assume a function to save the authenticated state
-        login();
-        navigate('/home'); // Redirect to home after successful login
-      }
+        // Assuming the response includes user email
+        localStorage.setItem('user_id', response.data.user_id);
+        login(email);
+        if (response.data.demographicsCompleted) {
+          navigate('/home'); // Redirect to home after successful login
+        } else {
+          navigate('/info'); // Redirect to demographic questions page
+        }
+    }
+
     } catch (error) {
       console.error('Error during login:', error);
       if (error.response && error.response.data) {
