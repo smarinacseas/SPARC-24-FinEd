@@ -7,6 +7,7 @@ import autopayImage from './autopay.jpg';
 
 function Module7() {
   const { isAuthenticated, userEmail } = useAuth(); // Retrieve the authenticated user
+  
   const [checkedItems, setCheckedItems] = useState({
     setupAutomaticTransfers: false,
     setupAutomatedPayments: false,
@@ -100,6 +101,7 @@ function Module7() {
           <div className="section actions">
             <div className="section-title">Actions</div>
             <div className="section-content">
+              
               <div>
                 <label style={{ opacity: checkedItems.setupAutomaticTransfers ? 0.5 : 1 }}>
                   <input
@@ -113,6 +115,7 @@ function Module7() {
                   Automate your savings by scheduling regular transfers from your checking account to your savings account or investment accounts.
                 </p>
               </div>
+
               <div>
                 <label style={{ opacity: checkedItems.setupAutomatedPayments ? 0.5 : 1 }}>
                   <input

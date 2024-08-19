@@ -1,22 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Module5.css';
+import api from '../../../api';
+import { useAuth } from '../../../context/AuthContext'; 
 
 function Module5() {
+  const { isAuthenticated, userEmail } = useAuth();
 
   const [checkedItems, setCheckedItems] = useState({
-    startInvesting: false,
+    hsa: false,
     compareFunds: false,
     rothIRA: false,
     homeOwnership: false,
     research: false,
   });
 
+
+  useEffect(() => {
+    const savedCheckedItems = localStorage.getItem('module5CheckedItems');
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+    }
+  }, []);
+
   const handleCheckboxChange = async (item) => {
+    if (!isAuthenticated) {
+      console.log('User is not authenticated');
+      return; // Prevent further actions if not authenticated
+    }
+
     setCheckedItems((prev) => {
       const updatedCheckedItems = { ...prev, [item]: !prev[item] };
+      const totalActions = Object.keys(updatedCheckedItems).length;
+      const completedActions = Object.values(updatedCheckedItems).filter(Boolean).length;
+      const progress = (completedActions / totalActions) * 100;
+
+      updateProgress(updatedCheckedItems, progress); // Update progress and state
+      localStorage.setItem('module5CheckedItems', JSON.stringify(updatedCheckedItems)); // Save to local storage
       return updatedCheckedItems;
     });
   };
+
+  const updateProgress = async (updatedActions, progress) => {
+    if (userEmail) {
+      try {
+        const response = await api.post('/update-progress', {
+          email: userEmail,
+          module: 'module5',
+          progress: progress,
+        });
+        console.log('Progress update response:', response);
+      } catch (error) {
+        console.error('Error updating progress:', error);
+      }
+    } else {
+      console.error('User email is not available');
+    }
+  };
+
 
   return (
     <div className="module-container">
@@ -80,7 +120,7 @@ function Module5() {
           </div>
 
           {/* Investing Explained Section */}
-          <div className="section info scrollable-section" style={{ maxHeight: '300px' }}>
+          <div className="section info scrollable-section" style={{ maxHeight: '280px' }}>
             <div className="section-title">Investing Explained</div>
             <div className="section-content">
               <ul>
@@ -143,7 +183,7 @@ function Module5() {
           <div className="section actions scrollable-section" style={{ maxHeight: '300px' }}>
             <div className="section-title">Actions</div>
             <div className="section-content">
-              <form>
+
               <div>
                 <label style={{ opacity: checkedItems.compareFunds ? 0.5 : 1 }}>
                   <input
@@ -151,84 +191,74 @@ function Module5() {
                     checked={checkedItems.compareFunds}
                     onChange={() => handleCheckboxChange('compareFunds')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Compare Fees and Performance of Your Current Investments.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.compareFunds ? 0.5 : 1 }}>
-                    Review the fees associated with any actively managed funds you own and consider switching to lower-cost index funds if the performance doesn't justify the higher fees.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Compare Fees and Performance of Your Current Investments.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.compareFunds ? 0.5 : 1 }}>
+                  Review the fees associated with any actively managed funds you own and consider switching to lower-cost index funds if the performance doesn't justify the higher fees.
+                </p>
               </div>
 
               <div>
-                <label style={{ opacity: checkedItems.rothIRA ? 0.5 : 1 }}>
+                <label style={{ opacity: checkedItems.rothIRA? 0.5 : 1 }}>
                   <input
                     type="checkbox"
                     checked={checkedItems.rothIRA}
                     onChange={() => handleCheckboxChange('rothIRA')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Open or Contribute to a Roth IRA.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.rothIRA ? 0.5 : 1 }}>
-                    If you’re eligible, start contributing to a Roth IRA. This account type allows your investments to grow tax-free, and you can withdraw funds tax-free in retirement.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Open or Contribute to a Roth IRA.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.rothIRA ? 0.5 : 1 }}>
+                  If you’re eligible, start contributing to a Roth IRA. This account type allows your investments to grow tax-free, and you can withdraw funds tax-free in retirement.
+                </p>
               </div>
 
               <div>
-                <label style={{ opacity: checkedItems.hsa ? 0.5 : 1 }}>
+                <label style={{ opacity: checkedItems.hsa? 0.5 : 1 }}>
                   <input
                     type="checkbox"
                     checked={checkedItems.hsa}
                     onChange={() => handleCheckboxChange('hsa')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Increase your HSA contributions to maximize tax benefits.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.hsa ? 0.5 : 1 }}>
-                    Especially if you have a high-deductible health plan, this can be a smart move.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Increase your HSA contributions to maximize tax benefits.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.hsa ? 0.5 : 1 }}>
+                  Especially if you have a high-deductible health plan, this can be a smart move.
+                </p>
               </div>
 
               <div>
                 <label style={{ opacity: checkedItems.homeOwnership ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    checked={checkedItems.homeOwnership}
+                    checked={checkedItems.homeOwnership }
                     onChange={() => handleCheckboxChange('homeOwnership')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Explore Homeownership Opportunities.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.homeOwnership ? 0.5 : 1 }}>
-                    If you’re currently renting, start exploring the possibility of buying a home. Building equity through homeownership can be a powerful way to increase your net worth over time.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Explore Homeownership Opportunities.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.homeOwnership ? 0.5 : 1 }}>
+                  If you’re currently renting, start exploring the possibility of buying a home. Building equity through homeownership can be a powerful way to increase your net worth over time.
+                </p>
               </div>
 
               <div>
-                <label style={{ opacity: checkedItems.assets ? 0.5 : 1 }}>
+                <label style={{ opacity: checkedItems.research ? 0.5 : 1 }}>
                   <input
                     type="checkbox"
-                    checked={checkedItems.research}
+                    checked={checkedItems.research }
                     onChange={() => handleCheckboxChange('research')}
                   />
-                  <span style={{ marginLeft: '5px', fontWeight: 'bold', display: 'block' }}>
-                    Research the Differences Between Roth and Traditional IRAs.
-                  </span>
-                  <p style={{ marginTop: '5px', opacity: checkedItems.research ? 0.5 : 1 }}>
-                    Use an online calculator to compare the benefits of contributing to a Roth IRA versus a traditional IRA, based on your current tax bracket and expected retirement tax bracket.
-                  </p>
+                  <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Research the Differences Between Roth and Traditional IRAs.</span>
                 </label>
+                <p style={{ marginTop: '5px', opacity: checkedItems.homeOwnership ? 0.5 : 1 }}>
+                Use an online calculator to compare the benefits of contributing to a Roth IRA versus a traditional IRA, based on your current tax bracket and expected retirement tax bracket.
+                </p>
               </div>
-              </form>
             </div>
           </div>
-          </div>
-  </div>
-</div>);
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Module5;
